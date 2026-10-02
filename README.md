@@ -31,7 +31,8 @@ The modules themselves live in their own repositories (see [Implementations](#im
 ## Table of contents
 
 - [Architecture](#architecture)
-- [Quick start](#quick-start)
+- [Published installation](#published-installation)
+- [Development setup for the sarhatabaot forks](#development-setup-for-the-sarhatabaot-forks)
 - [The API](#the-api)
 - [Working on the standard](#working-on-the-standard)
 - [Implementations](#implementations)
@@ -151,9 +152,9 @@ Once it is up, point your tests at the machine running it (see the Tester's
 From the workspace parent directory, use the **local source and artifacts** from these sibling
 repositories. The current feature
 branches are `feature/docker-runtime-modernization` in `WatchWolf` and
-`feature/itzg-minecraft-runtime` in `WatchWolf-ServersManager`; `WatchWolf-Server` and
-`WatchWolf-Tester` remain on `dev`. These branches are local until pushed, so use the existing
-workspace if a fresh clone cannot see them. For a new workspace, clone the forks from
+`feature/itzg-minecraft-runtime` in `WatchWolf-ServersManager`, and `feature/gradle-build` in
+`WatchWolf-Server`; `WatchWolf-Tester` remains on `dev`. These branches are local until pushed,
+so use the existing workspace if a fresh clone cannot see them. For a new workspace, clone the forks from
 `github.com/sarhatabaot`, then check out the feature branches after they are published:
 
 ```powershell
@@ -169,20 +170,17 @@ Use Docker Engine on Linux or Docker Desktop with Linux containers on Windows. T
 use PowerShell from the existing workspace; on Linux, use the corresponding `mkdir -p`, `cp`,
 and `$PWD` shell syntax.
 
-1. **Build the local WatchWolf-Server plugin.** Its fork requires
-   `WatchWolf-Server/lib/spigot-1.16.5.jar` and Core `0.3.3`. The Server fork's
-   `ci/build.sh` resolves Core through JitPack or the
-   optional sibling `WatchWolf-Core` checkout. Supply the Spigot JAR before building; it is not
-   checked into the fork. From the workspace parent in a Linux or WSL Bash terminal, run:
+1. **Build the local WatchWolf-Server plugin.** From the workspace parent in PowerShell, run:
 
-   ```bash
+   ```powershell
    cd WatchWolf-Server
-   bash ci/build.sh --preclean
+   .\gradlew.bat assemble
    ```
 
-   This produces `target/WatchWolf-0.3.1-1.8-LATEST.jar`. Use that locally built file so
-   Minecraft loads the forked plugin. The Servers Manager and Server currently require
-   different Core versions: **0.3.1 for Servers Manager, 0.3.3 for Server**.
+   This produces `build/libs/WatchWolf-0.3.1-1.8-LATEST.jar`. On Linux, use
+   `./gradlew assemble`. Gradle fetches the Spigot **API** for compilation, so no local Spigot
+   server JAR is needed. It also resolves and shades Core `0.3.3`. The Servers Manager uses
+   Core `0.3.1` for its own build.
 
 2. **Build the local Servers Manager.** From the workspace parent in PowerShell, enter the
    sibling `WatchWolf-ServersManager` checkout,
@@ -195,7 +193,7 @@ and `$PWD` shell syntax.
    docker run --rm -v "${PWD}/lib:/out" maven:3.9-eclipse-temurin-17 curl -fL https://github.com/watch-wolf/WatchWolf-Core/releases/download/v0.3.1/watchwolf-core-0.3.1.jar -o /out/watchwolf-core-0.3.1.jar
    docker run --rm -v "${PWD}:/compile" -w /compile maven:3.9-eclipse-temurin-17 mvn -B clean package
    Copy-Item target/watchwolf-servers-manager-0.3.3.jar ci/release/ServersManager.jar
-   Copy-Item ../WatchWolf-Server/target/WatchWolf-0.3.1-1.8-LATEST.jar ci/release/usual-plugins/
+   Copy-Item ../WatchWolf-Server/build/libs/WatchWolf-0.3.1-1.8-LATEST.jar ci/release/usual-plugins/
    ```
 
    The manager's Maven `clean` phase installs the Core JAR from `lib/`. Rebuild and recopy
@@ -262,8 +260,8 @@ and `$PWD` shell syntax.
 Use `docker compose down` from `WatchWolf` to stop the control plane. Instance volumes are
 removed after their servers stop; retained logs are under
 `WatchWolf-ServersManager/ci/release/logs/`. The manager alone receives the Docker socket.
-Windows Docker Desktop with Linux containers has passed the manager and Tester workflow; Linux
-Docker Engine and a local rebuild of the Server fork still need validation.
+Windows Docker Desktop with Linux containers has passed the manager and Tester workflow, and the
+Server fork builds with Gradle on Windows. Linux Docker Engine still needs a real integration run.
 
 ---
 
