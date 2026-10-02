@@ -64,9 +64,9 @@ flowchart LR
 
 | Module | Responsibility | Language | Repository |
 | --- | --- | --- | --- |
-| **Tester** | Entry point. Orchestrates setup/teardown and runs your tests. | Java 8 | [WatchWolf-Tester](https://github.com/miranda1000/WatchWolf-Tester) |
-| **Servers Manager** | Provides Minecraft servers on demand (one Docker container each) and frees them afterwards. | Java 17 | [WatchWolf-ServersManager](https://github.com/miranda1000/WatchWolf-ServersManager) |
-| **Server** | The Minecraft server itself. A Spigot plugin that executes the Tester's commands in-game. | Java 8 | [WatchWolf-Server](https://github.com/miranda1000/WatchWolf-Server) |
+| **Tester** | Entry point. Orchestrates setup/teardown and runs your tests. | Java 8 | [WatchWolf-Tester fork](https://github.com/sarhatabaot/WatchWolf-Tester) |
+| **Servers Manager** | Provides Minecraft servers on demand (one Docker container each) and frees them afterwards. | Java 17 | [WatchWolf-ServersManager fork](https://github.com/sarhatabaot/WatchWolf-ServersManager) |
+| **Server** | The Minecraft server itself. A Spigot plugin that executes the Tester's commands in-game. | Java 8 | [WatchWolf-Server fork](https://github.com/sarhatabaot/WatchWolf-Server) |
 | **Clients Manager** | Same as the Servers Manager, but for players. Starts bots and connects them to a server. | Python 3 | [WatchWolf-Client](https://github.com/miranda1000/WatchWolf-Client) |
 | **Client** | A headless Minecraft client that can move, mine, chat and record video. | Python 3 + Node | [WatchWolf-Client](https://github.com/miranda1000/WatchWolf-Client) |
 
@@ -88,13 +88,13 @@ Two supporting repositories complete the picture:
 
 ---
 
-## Quick start
+## Published installation
 
 The [`WatchWolfSetup.sh`](WatchWolfSetup.sh) script installs and runs everything the Tester needs
 (the Servers Manager and the Clients Manager). It requires **Ubuntu** and **Docker**; on Windows,
 see [how to install Linux on Windows with WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
-This published-artifact flow requires a Servers Manager release containing the itzg provider.
-For local feature branches, use the Compose development setup below.
+This path clones upstream repositories and downloads published artifacts. For this fork's local
+feature branches, use [Development setup for the sarhatabaot forks](#development-setup-for-the-sarhatabaot-forks).
 
 1. **Download the script**
 
@@ -127,7 +127,7 @@ For local feature branches, use the Compose development setup below.
    ```
 
 Once it is up, point your tests at the machine running it (see the Tester's
-[configuration file](https://github.com/miranda1000/WatchWolf-Tester)) and you are ready to go.
+[configuration file](https://github.com/sarhatabaot/WatchWolf-Tester)) and you are ready to go.
 
 ### Script options
 
@@ -146,43 +146,74 @@ Once it is up, point your tests at the machine running it (see the Tester's
 
 ---
 
-## Development setup with Docker Compose
+## Development setup for the sarhatabaot forks
 
-This workflow runs local Servers Manager code. Keep sibling checkouts of `WatchWolf` and
-`WatchWolf-ServersManager`; clone `WatchWolf-Client` beside them for the Clients Manager image.
-Use Docker Engine on Linux or Docker Desktop with Linux containers on Windows. The Windows
-steps below use PowerShell.
+From the workspace parent directory, use the **local source and artifacts** from these sibling
+repositories. The current feature
+branches are `feature/docker-runtime-modernization` in `WatchWolf` and
+`feature/itzg-minecraft-runtime` in `WatchWolf-ServersManager`; `WatchWolf-Server` and
+`WatchWolf-Tester` remain on `dev`. These branches are local until pushed, so use the existing
+workspace if a fresh clone cannot see them. For a new workspace, clone the forks from
+`github.com/sarhatabaot`, then check out the feature branches after they are published:
 
-1. Build `WatchWolf-Core` version `0.3.1` and place its JAR at
-   `WatchWolf-ServersManager/lib/watchwolf-core-0.3.1.jar`. This file is ignored by Git.
-   Build the manager with JDK 17 and Maven, then copy its assembled JAR into the release
-   image context:
+```powershell
+git clone https://github.com/sarhatabaot/WatchWolf.git
+git clone https://github.com/sarhatabaot/WatchWolf-ServersManager.git
+git clone https://github.com/sarhatabaot/WatchWolf-Server.git
+git clone https://github.com/sarhatabaot/WatchWolf-Tester.git
+```
 
-   ```powershell
-   cd ../WatchWolf-ServersManager
-   docker run --rm -v "${PWD}:/compile" -w /compile maven:3.9-eclipse-temurin-17 mvn -B clean package
-   Copy-Item target/watchwolf-servers-manager-0.3.3.jar ci/release/ServersManager.jar
-   New-Item -ItemType Directory -Force ci/release/usual-plugins,ci/release/tmp,ci/release/logs | Out-Null
-   Invoke-WebRequest https://watchwolf.dev/versions/WatchWolf-0.3.1-1.8-LATEST.jar -OutFile ci/release/usual-plugins/WatchWolf-0.3.1-1.8-LATEST.jar
+Keep the repositories side by side. Do not use `WatchWolfSetup.sh --build` for this workflow:
+that script reclones upstream Servers Manager and its release build downloads an upstream JAR.
+Use Docker Engine on Linux or Docker Desktop with Linux containers on Windows. The commands below
+use PowerShell from the existing workspace; on Linux, use the corresponding `mkdir -p`, `cp`,
+and `$PWD` shell syntax.
+
+1. **Build the local WatchWolf-Server plugin.** Its fork requires
+   `WatchWolf-Server/lib/spigot-1.16.5.jar` and Core `0.3.3`. The Server fork's
+   `ci/build.sh` resolves Core through JitPack or the
+   optional sibling `WatchWolf-Core` checkout. Supply the Spigot JAR before building; it is not
+   checked into the fork. From the workspace parent in a Linux or WSL Bash terminal, run:
+
+   ```bash
+   cd WatchWolf-Server
+   bash ci/build.sh --preclean
    ```
 
-   On Linux, use `-v "$PWD:/compile"`, `cp`, `mkdir -p`, and `curl -fL -o` for the
-   equivalent commands.
-   The command downloads the WatchWolf-Server plugin used by the tested version matrix; the
-   itzg provider rejects provisioning if a compatible `WatchWolf-*.jar` is missing. Other usual
-   plugins can go in that same directory. The
-   `server-types/` directory may remain empty for itzg. To exercise the legacy fallback,
-   supply `server-types/<Type>/<version>.jar` as before.
+   This produces `target/WatchWolf-0.3.1-1.8-LATEST.jar`. Use that locally built file so
+   Minecraft loads the forked plugin. The Servers Manager and Server currently require
+   different Core versions: **0.3.1 for Servers Manager, 0.3.3 for Server**.
 
-2. Build the Clients Manager image from its separate checkout. Clone it beside these
-   repositories if it is not already present:
+2. **Build the local Servers Manager.** From the workspace parent in PowerShell, enter the
+   sibling `WatchWolf-ServersManager` checkout,
+   install its Core `0.3.1` JAR into the ignored `lib/` directory, run Maven, and copy the
+   assembled manager and forked plugin into the Compose build/mount paths:
+
+   ```powershell
+   cd WatchWolf-ServersManager
+   New-Item -ItemType Directory -Force lib,ci/release/usual-plugins,ci/release/tmp,ci/release/logs | Out-Null
+   docker run --rm -v "${PWD}/lib:/out" maven:3.9-eclipse-temurin-17 curl -fL https://github.com/watch-wolf/WatchWolf-Core/releases/download/v0.3.1/watchwolf-core-0.3.1.jar -o /out/watchwolf-core-0.3.1.jar
+   docker run --rm -v "${PWD}:/compile" -w /compile maven:3.9-eclipse-temurin-17 mvn -B clean package
+   Copy-Item target/watchwolf-servers-manager-0.3.3.jar ci/release/ServersManager.jar
+   Copy-Item ../WatchWolf-Server/target/WatchWolf-0.3.1-1.8-LATEST.jar ci/release/usual-plugins/
+   ```
+
+   The manager's Maven `clean` phase installs the Core JAR from `lib/`. Rebuild and recopy
+   `ServersManager.jar` after changing manager code; rebuild and recopy the plugin after changing
+   Server code. These JARs and runtime directories are ignored by Git. The itzg provider needs
+   no `server-types/<Type>/<version>.jar`; the explicit `legacy` fallback does.
+
+3. **Build the Clients Manager dependency.** This workspace has no Clients Manager fork or
+   checkout, so Compose uses its upstream image built from a separate checkout:
 
    ```powershell
    git clone --branch dev https://github.com/rogermiranda1000/WatchWolf-Client.git ../WatchWolf-Client
    docker build -t clients-manager:latest ../WatchWolf-Client
    ```
 
-3. Configure and start the control plane from this `WatchWolf` checkout:
+   Skip the clone if that directory already exists. No Minecraft instance is a Compose service.
+
+4. **Start the local control plane.** From this fork's `WatchWolf` checkout:
 
    ```powershell
    cd ../WatchWolf
@@ -192,26 +223,47 @@ steps below use PowerShell.
    docker compose logs -f servers-manager
    ```
 
-   `.env` selects the provider and image. The default `itzg` provider supports the Paper
-   versions listed in the Servers Manager README. `WATCHWOLF_ITZG_TAG=auto` chooses the tested
-   Java image variant for each version; set an explicit tag to override it. The image version
-   and requested Minecraft version are separate. `WATCHWOLF_MACHINE_IP=127.0.0.1` and
-   `WATCHWOLF_PUBLIC_IP=127.0.0.1` serve tests on the Docker host; set a reachable host address
-   for remote Testers. Set `WATCHWOLF_SERVERS_MANAGER_RELEASE_DIR` to an absolute path before
-   selecting `legacy`, because its sibling Docker bind mount uses that host path.
+   `.env` selects `itzg` by default. `WATCHWOLF_ITZG_TAG=auto` uses the tested Java image
+   variant for Paper `1.19`, `1.20.2`, or `1.20.6`; an explicit tag overrides it. Set
+   `WATCHWOLF_MACHINE_IP` and `WATCHWOLF_PUBLIC_IP` to a reachable host address for remote
+   Testers. For `legacy`, set `WATCHWOLF_MINECRAFT_RUNTIME=legacy` and make
+   `WATCHWOLF_SERVERS_MANAGER_RELEASE_DIR` an absolute host path.
 
-4. Point a Tester configuration at `127.0.0.1` and request a supported Paper version. The
-   Servers Manager listens on port `8000`, the Clients Manager on `7000`, and spawned Minecraft
-   instances use port pairs from `8001`. The first itzg start downloads Paper. Inspect retained
-   instance logs under `WatchWolf-ServersManager/ci/release/logs/` if startup fails. Stop the
-   control plane with `docker compose down`; instance volumes are removed when their servers
-   stop. Servers Manager alone receives the Docker socket. Do not place that socket in a
-   Minecraft container.
+5. **Use the forked Tester.** Build `WatchWolf-Tester` from its sibling checkout, then configure
+   a test to target `127.0.0.1` and one of the Paper versions above:
 
-The Compose services use published ports and Docker's bridge network. On Windows Docker
-Desktop, Servers Manager copies instance files through Docker's API into an isolated named
-volume, so it does not pass a nested Windows bind path to the Minecraft container. Linux
-Docker Engine still needs a real integration run before calling this workflow release ready.
+   ```powershell
+   cd ../WatchWolf-Tester
+   docker run --rm -v "${PWD}:/compile" -w /compile maven:3.9-eclipse-temurin-17 mvn -B package
+   ```
+
+   For a live JUnit run, temporarily narrow the relevant fixture, such as
+   `src/test/java/server_starter/resources/basic.yaml`, to a supported request:
+
+   ```yaml
+   provider: "127.0.0.1"
+   server-type:
+     - Paper:
+         - "1.20.2"
+   plugin: "WatchWolf"
+   ```
+
+   Run the selected test **on the host**, where `127.0.0.1` reaches the published Compose
+   ports, using a local JDK and Maven:
+
+   ```powershell
+   mvn -Dmaven.test.skip=false -Dtest=ServerStarterShould test
+   ```
+
+   Restore the tracked fixture afterward. Other fork fixtures request older Paper and Spigot
+   versions; use `legacy` with their JARs before running them. The manager listens on `8000`,
+   Clients Manager on `7000`, and spawned Minecraft instances use port pairs from `8001`.
+
+Use `docker compose down` from `WatchWolf` to stop the control plane. Instance volumes are
+removed after their servers stop; retained logs are under
+`WatchWolf-ServersManager/ci/release/logs/`. The manager alone receives the Docker socket.
+Windows Docker Desktop with Linux containers has passed the manager and Tester workflow; Linux
+Docker Engine and a local rebuild of the Server fork still need validation.
 
 ---
 
@@ -296,11 +348,11 @@ pdflatex -synctex=1 -interaction=nonstopmode API.tex
 
 ## Implementations
 
-A full reference implementation of every module is available:
+A full implementation uses these forked modules and upstream dependencies:
 
-- [WatchWolf-Tester](https://github.com/miranda1000/WatchWolf-Tester) — JUnit 5 test harness
-- [WatchWolf-ServersManager](https://github.com/miranda1000/WatchWolf-ServersManager) — Docker-backed server provider
-- [WatchWolf-Server](https://github.com/miranda1000/WatchWolf-Server) — Spigot plugin ([pre-compiled builds](https://watchwolf.dev/versions/))
+- [WatchWolf-Tester fork](https://github.com/sarhatabaot/WatchWolf-Tester) — JUnit 5 test harness
+- [WatchWolf-ServersManager fork](https://github.com/sarhatabaot/WatchWolf-ServersManager) — Docker-backed server provider
+- [WatchWolf-Server fork](https://github.com/sarhatabaot/WatchWolf-Server) — Spigot plugin
 - [WatchWolf-Client](https://github.com/miranda1000/WatchWolf-Client) — Clients Manager & mineflayer client
 - [WatchWolf-Core](https://github.com/watch-wolf/WatchWolf-Core) — shared entities and RPC runtime
 - [WatchWolf-MaterialGetter](https://github.com/miranda1000/WatchWolf-MaterialGetter) — block/item class generator
