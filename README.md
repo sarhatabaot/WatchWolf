@@ -93,6 +93,8 @@ Two supporting repositories complete the picture:
 The [`WatchWolfSetup.sh`](WatchWolfSetup.sh) script installs and runs everything the Tester needs
 (the Servers Manager and the Clients Manager). It requires **Ubuntu** and **Docker**; on Windows,
 see [how to install Linux on Windows with WSL](https://learn.microsoft.com/en-us/windows/wsl/install).
+This published-artifact flow requires a Servers Manager release containing the itzg provider.
+For local feature branches, use the Compose development setup below.
 
 1. **Download the script**
 
@@ -103,12 +105,14 @@ see [how to install Linux on Windows with WSL](https://learn.microsoft.com/en-us
 2. **Build**
 
    ```bash
-   bash WatchWolfSetup.sh --build
+   bash WatchWolfSetup.sh --build --runtime itzg
    ```
 
-   This clones the Servers Manager and Clients Manager, pulls the JDK images, downloads the
-   "usual plugins" and builds the Spigot/Paper jars. Have at least **1.5 GB** free; building the
-   Spigot servers can take up to an hour.
+   This clones the Servers Manager and Clients Manager, downloads the "usual plugins" and
+   builds their control-plane images. The `itzg` runtime downloads a supported Paper build when
+   a test first requests it, so setup does not build Minecraft server JARs. Use
+   `--runtime legacy` to retain the older JAR preparation flow. The script uses published
+   Servers Manager artifacts; use the development workflow below to test local changes.
 
 3. **Install** *(optional — makes `watchwolf` available everywhere and starts it at boot)*
 
@@ -119,7 +123,7 @@ see [how to install Linux on Windows with WSL](https://learn.microsoft.com/en-us
 4. **Run**
 
    ```bash
-   bash WatchWolfSetup.sh --run
+   bash WatchWolfSetup.sh --run --runtime itzg
    ```
 
 Once it is up, point your tests at the machine running it (see the Tester's
@@ -137,7 +141,77 @@ Once it is up, point your tests at the machine running it (see the Tester's
 | `--dev` | `--build` | Clone the `dev` branches instead of `master` |
 | `--threads <n>` | `--build` | Parallel Spigot build containers (default `1`) |
 | `--skip-spigot-build` | `--build` | Skip building Spigot; drop the jars in `<path>/ServersManager/ci/release/server-types/Spigot` yourself |
+| `--runtime legacy\|itzg` | `--build`, `--install`, `--run` | Choose provisioning; defaults to `itzg`. The explicit flag overrides `WATCHWOLF_MINECRAFT_RUNTIME`. |
 | `--disable-startup` | `--install` | Do not launch WatchWolf at boot |
+
+---
+
+## Development setup with Docker Compose
+
+This workflow runs local Servers Manager code. Keep sibling checkouts of `WatchWolf` and
+`WatchWolf-ServersManager`; clone `WatchWolf-Client` beside them for the Clients Manager image.
+Use Docker Engine on Linux or Docker Desktop with Linux containers on Windows. The Windows
+steps below use PowerShell.
+
+1. Build `WatchWolf-Core` version `0.3.1` and place its JAR at
+   `WatchWolf-ServersManager/lib/watchwolf-core-0.3.1.jar`. This file is ignored by Git.
+   Build the manager with JDK 17 and Maven, then copy its assembled JAR into the release
+   image context:
+
+   ```powershell
+   cd ../WatchWolf-ServersManager
+   docker run --rm -v "${PWD}:/compile" -w /compile maven:3.9-eclipse-temurin-17 mvn -B clean package
+   Copy-Item target/watchwolf-servers-manager-0.3.3.jar ci/release/ServersManager.jar
+   New-Item -ItemType Directory -Force ci/release/usual-plugins,ci/release/tmp,ci/release/logs | Out-Null
+   Invoke-WebRequest https://watchwolf.dev/versions/WatchWolf-0.3.1-1.8-LATEST.jar -OutFile ci/release/usual-plugins/WatchWolf-0.3.1-1.8-LATEST.jar
+   ```
+
+   On Linux, use `-v "$PWD:/compile"`, `cp`, `mkdir -p`, and `curl -fL -o` for the
+   equivalent commands.
+   The command downloads the WatchWolf-Server plugin used by the tested version matrix; the
+   itzg provider rejects provisioning if a compatible `WatchWolf-*.jar` is missing. Other usual
+   plugins can go in that same directory. The
+   `server-types/` directory may remain empty for itzg. To exercise the legacy fallback,
+   supply `server-types/<Type>/<version>.jar` as before.
+
+2. Build the Clients Manager image from its separate checkout. Clone it beside these
+   repositories if it is not already present:
+
+   ```powershell
+   git clone --branch dev https://github.com/rogermiranda1000/WatchWolf-Client.git ../WatchWolf-Client
+   docker build -t clients-manager:latest ../WatchWolf-Client
+   ```
+
+3. Configure and start the control plane from this `WatchWolf` checkout:
+
+   ```powershell
+   cd ../WatchWolf
+   Copy-Item .env.example .env
+   docker compose config --quiet
+   docker compose up --build -d
+   docker compose logs -f servers-manager
+   ```
+
+   `.env` selects the provider and image. The default `itzg` provider supports the Paper
+   versions listed in the Servers Manager README. `WATCHWOLF_ITZG_TAG=auto` chooses the tested
+   Java image variant for each version; set an explicit tag to override it. The image version
+   and requested Minecraft version are separate. `WATCHWOLF_MACHINE_IP=127.0.0.1` and
+   `WATCHWOLF_PUBLIC_IP=127.0.0.1` serve tests on the Docker host; set a reachable host address
+   for remote Testers. Set `WATCHWOLF_SERVERS_MANAGER_RELEASE_DIR` to an absolute path before
+   selecting `legacy`, because its sibling Docker bind mount uses that host path.
+
+4. Point a Tester configuration at `127.0.0.1` and request a supported Paper version. The
+   Servers Manager listens on port `8000`, the Clients Manager on `7000`, and spawned Minecraft
+   instances use port pairs from `8001`. The first itzg start downloads Paper. Inspect retained
+   instance logs under `WatchWolf-ServersManager/ci/release/logs/` if startup fails. Stop the
+   control plane with `docker compose down`; instance volumes are removed when their servers
+   stop. Servers Manager alone receives the Docker socket. Do not place that socket in a
+   Minecraft container.
+
+The Compose services use published ports and Docker's bridge network. On Windows Docker
+Desktop, Servers Manager copies instance files through Docker's API into an isolated named
+volume, so it does not pass a nested Windows bind path to the Minecraft container. Linux
+Docker Engine still needs a real integration run before calling this workflow release ready.
 
 ---
 

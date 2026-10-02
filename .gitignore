@@ -1,4 +1,5 @@
 texput.log
+.env
 API.*
 API-*
 !API.tex

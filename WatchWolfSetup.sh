@@ -6,6 +6,7 @@ opt=""
 branch="master"
 no_startup=0
 no_spigot=0
+runtime="${WATCHWOLF_MINECRAFT_RUNTIME:-itzg}"
 num_processes=1
 base_path="$HOME/WatchWolf"
 
@@ -16,6 +17,7 @@ while [[ "$#" -gt 0 ]]; do
 		--path) base_path="$2"; shift ;;
 		--disable-startup) no_startup=1 ;;
 		--skip-spigot-build) no_spigot=1 ;;
+		--runtime) runtime="$2"; shift ;;
 		
 		--build) opt="build" ;;
 		--install) opt="install" ;;
@@ -26,6 +28,11 @@ while [[ "$#" -gt 0 ]]; do
     esac
     shift
 done
+
+if [ "$runtime" != "legacy" ] && [ "$runtime" != "itzg" ]; then
+	echo "[e] Runtime must be legacy or itzg; got '$runtime'." >&2
+	exit 1
+fi
 
 if [ $num_processes -lt 1 ]; then
 	num_processes=1 # at least 1 process
@@ -63,19 +70,24 @@ case "$opt" in
 		
 		mkdir -p "$servers_manager_ci_path/server-types/Spigot"
 		mkdir -p "$servers_manager_ci_path/server-types/Paper"
+		mkdir -p "$servers_manager_ci_path/usual-plugins"
 
 		if [ `docker -v >/dev/null 2>&1 ; echo $?` -ne 0 ]; then
 			echo "[e] Docker is not installed, or is currently stopped. Check https://docs.docker.com/get-docker/." >&2
 			exit 1
 		fi
 
-		# ServersManager dependencies
-		sudo docker pull eclipse-temurin:8-jdk
-		sudo docker pull eclipse-temurin:16-jdk
-		sudo docker pull eclipse-temurin:17-jdk
-		sudo docker pull eclipse-temurin:21-jdk
+		if [ "$runtime" = "legacy" ]; then
+			# Legacy servers use a separate Java image and a prebuilt server JAR.
+			sudo docker pull eclipse-temurin:8-jdk
+			sudo docker pull eclipse-temurin:16-jdk
+			sudo docker pull eclipse-temurin:17-jdk
+			sudo docker pull eclipse-temurin:21-jdk
+		else
+			echo "[v] itzg selected; skipping Minecraft JAR preparation."
+		fi
 
-		if [ $no_spigot -eq 0 ]; then
+		if [ "$runtime" = "legacy" ] && [ $no_spigot -eq 0 ]; then
 			dos2unix "$server_builders_path/SpigotBuilder.sh" "$server_builders_path/PaperBuilder.sh"
 			
 			source "$server_builders_path/SpigotBuilder.sh" # getAllVersions/buildVersion
@@ -132,7 +144,7 @@ case "$opt" in
 		sudo docker pull nikolaik/python-nodejs
 		sudo docker build --tag clients-manager "$clients_manager_path"
 		
-		if [ $no_spigot -eq 0 ]; then
+		if [ "$runtime" = "legacy" ] && [ $no_spigot -eq 0 ]; then
 			# all ended; wait for the Spigot versions to finish
 			current_downloading_containers=`sudo docker container ls -a | grep 'Spigot_build_' -c`
 			dots=""
@@ -195,7 +207,7 @@ case "$opt" in
 					Description=Launches WatchWolf ServersManager and WatchWolf ClientsManager
 					
 					[Service]
-					ExecStart=bash "$script_path" --run --path "$base_path"
+					ExecStart=bash "$script_path" --run --path "$base_path" --runtime "$runtime"
 					
 					[Install]
 					WantedBy=multi-user.target
@@ -226,7 +238,7 @@ case "$opt" in
 					base=`/mnt/c/Windows/System32/cmd.exe /c 'echo %USERPROFILE%' | sed 's/\r$//'` # get the base path
 					base=`echo "$base" | sed 's_\\\\_/_g' | sed 's_C:/_/mnt/c/_g'` # in WSL the directory delimiter is '/' (not '\'), and 'C:' is '/mnt/c'
 					windows_start_folder="$base/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup" # @ref https://www.thewindowsclub.com/startup-folder-in-windows-8
-					echo "wsl bash \"$script_path\" --run --path \"$base_path\"" > "$windows_start_folder/WatchWolf.bat"
+					echo "wsl bash \"$script_path\" --run --path \"$base_path\" --runtime \"$runtime\"" > "$windows_start_folder/WatchWolf.bat"
 					echo "Launch on startup done"
 				fi
 			fi
@@ -265,7 +277,9 @@ case "$opt" in
 		# run ServersManager
 		cd "$servers_manager_ci_path"
 		dos2unix "run.sh"
-		sudo bash "run.sh"
+		sudo env WATCHWOLF_MINECRAFT_RUNTIME="$runtime" \
+			WATCHWOLF_ITZG_IMAGE="${WATCHWOLF_ITZG_IMAGE:-itzg/minecraft-server}" \
+			WATCHWOLF_ITZG_TAG="${WATCHWOLF_ITZG_TAG:-auto}" bash "run.sh"
 		
 		# run ClientsManager
 		cd "$clients_manager_path"
