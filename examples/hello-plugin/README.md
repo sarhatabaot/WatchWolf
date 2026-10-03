@@ -36,3 +36,9 @@ need rebuilding. The first run may take several minutes while dependencies and P
 
 The end-to-end run was verified on Windows Docker Desktop with Linux containers. Linux Docker
 Engine has not been run for this example in this workspace.
+
+Once the GHCR images are published, the source checkouts are unnecessary for running tests.
+From the `WatchWolf` repository root, copy `release.env.example` to `release.env`, set the
+published tag, and run `docker compose --env-file release.env -f compose.release.yaml up --wait -d`.
+Then run this example's Gradle `test` task from the IDE as above. Stop the published control
+plane with `docker compose --env-file release.env -f compose.release.yaml down`.

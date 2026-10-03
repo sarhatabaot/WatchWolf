@@ -30,6 +30,7 @@ The modules themselves live in their own repositories (see [Implementations](#im
 
 ## Table of contents
 
+- [GHCR releases for the forks](#ghcr-releases-for-the-forks)
 - [Architecture](#architecture)
 - [Published installation](#published-installation)
 - [Development setup for the sarhatabaot forks](#development-setup-for-the-sarhatabaot-forks)
@@ -38,6 +39,53 @@ The modules themselves live in their own repositories (see [Implementations](#im
 - [Implementations](#implementations)
 - [Repository layout](#repository-layout)
 - [Contributing](#contributing)
+
+---
+
+## GHCR releases for the forks
+
+The fork release workflows publish two control-plane images to GitHub Container Registry:
+
+- `ghcr.io/sarhatabaot/watchwolf-servers-manager:<tag>` is built by the
+  WatchWolf-ServersManager repository. It contains a pinned WatchWolf-Server plugin JAR.
+- `ghcr.io/sarhatabaot/watchwolf-clients-manager:<tag>` is built by this repository from a
+  pinned commit of the upstream WatchWolf-Client repository.
+
+Release in this order:
+
+1. Push tag `v0.3.1` to the WatchWolf-Server fork. Its workflow builds the plugin JAR and
+   creates the release with that JAR and its checksum. Do not publish this release manually;
+   for a newer version, update its Gradle version first.
+2. Check `WATCHWOLF_SERVER_VERSION` in the ServersManager release workflow, then publish a
+   ServersManager release tagged `v0.3.3`. Its image build downloads that exact plugin asset.
+   The tag must match the ServersManager Maven version.
+3. Check `CLIENT_SOURCE_REF` in this repository's Clients Manager release workflow. Publish a
+   WatchWolf release with the **same tag as the ServersManager image**, such as `v0.3.3`.
+   This builds the matching Clients Manager image.
+4. If users should pull without authenticating, set both GHCR packages to **public** in GitHub
+   package settings. New GHCR packages initially have private visibility.
+
+After both images exist, copy `release.env.example` to `release.env`, set the release tag and
+reachable host addresses, then run:
+
+```bash
+docker compose --env-file release.env -f compose.release.yaml up --wait -d
+```
+
+`compose.release.yaml` only pulls published images; it does not require sibling source
+checkouts or prebuilt Minecraft server JARs. It uses the itzg runtime, publishes the Tester
+ports, stores manager logs in a named volume, and mounts the Docker socket into ServersManager
+for dynamic Minecraft provisioning. Stop it with the same Compose options and `down`.
+
+The Server plugin workflow runs on a version tag push. The two image workflows run when you
+**publish a GitHub Release** from their corresponding forks. The
+workflow needs GitHub Actions enabled and its `GITHUB_TOKEN` granted package write access; no
+personal access token is needed for publishing from Actions. Build the images from reviewed
+release tags and use fixed tags or image digests in deployments rather than `latest`.
+The initial workflows publish Linux `amd64` images; other architectures have not been tested.
+The pinned Clients Manager source still uses upstream floating build dependencies, and
+`WATCHWOLF_ITZG_TAG=auto` selects floating Java variant tags for spawned Paper servers. Decide
+how to pin those separately before claiming a fully reproducible runtime release.
 
 ---
 
