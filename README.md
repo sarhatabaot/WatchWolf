@@ -51,19 +51,23 @@ The fork release workflows publish two control-plane images to GitHub Container 
 - `ghcr.io/sarhatabaot/watchwolf-clients-manager:<tag>` is built by this repository from a
   pinned commit of the upstream WatchWolf-Client repository.
 
+`v0.4.1` supersedes the initial `v0.4.0` release line. Select a ref containing the `0.4.1`
+version and workflows when creating each release in the GitHub UI.
+
 Release in this order:
 
-1. Push tag `v0.4.0` to the WatchWolf-Server fork. Its workflow builds the plugin JAR and
-   creates the release with that JAR and its checksum. Do not publish this release manually;
-   for a newer version, update its Gradle version first.
+1. Publish the WatchWolf-Server release `v0.4.1` through the GitHub UI. Its workflow builds
+   the plugin JAR and uploads it with a checksum to that release. Wait for the assets to appear.
 2. Check `WATCHWOLF_SERVER_VERSION` in the ServersManager release workflow, then publish a
-   ServersManager release tagged `v0.4.0`. Its image build downloads that exact plugin asset.
+   ServersManager release tagged `v0.4.1` through the GitHub UI. Its image build downloads
+   that exact plugin asset.
    The tag must match the ServersManager Maven version.
 3. Check `CLIENT_SOURCE_REF` in this repository's Clients Manager release workflow. Publish a
-   WatchWolf release with the **same tag as the ServersManager image**, such as `v0.4.0`.
+   WatchWolf release with the **same tag as the ServersManager image**, such as `v0.4.1`.
    This builds the matching Clients Manager image.
-4. Push tag `v0.4.0` to the WatchWolf-Tester fork. Its workflow publishes the Tester JAR and
-   checksum. Run its integration tests against the release setup separately.
+4. Publish the WatchWolf-Tester release `v0.4.1` through the GitHub UI. Its workflow uploads
+   the Tester JAR and checksum to that release. Run its integration tests against the release
+   setup separately.
 5. If users should pull without authenticating, set both GHCR packages to **public** in GitHub
    package settings. New GHCR packages initially have private visibility.
 
@@ -79,11 +83,13 @@ checkouts or prebuilt Minecraft server JARs. It uses the itzg runtime, publishes
 ports, stores manager logs in a named volume, and mounts the Docker socket into ServersManager
 for dynamic Minecraft provisioning. Stop it with the same Compose options and `down`.
 
-The Server plugin workflow runs on a version tag push. The two image workflows run when you
-**publish a GitHub Release** from their corresponding forks. The
+All four release workflows run when you **publish a GitHub Release** in the corresponding fork;
+the Server and Tester workflows add assets to those releases. The
 workflow needs GitHub Actions enabled and its `GITHUB_TOKEN` granted package write access; no
 personal access token is needed for publishing from Actions. Build the images from reviewed
 release tags and use fixed tags or image digests in deployments rather than `latest`.
+If immutable releases are enabled, assets cannot be added after publication; build and attach
+the Server and Tester JARs in the UI before publishing those releases instead.
 The initial workflows publish Linux `amd64` images; other architectures have not been tested.
 The pinned Clients Manager source still uses upstream floating build dependencies, and
 `WATCHWOLF_ITZG_TAG=auto` selects floating Java variant tags for spawned Paper servers. Decide
@@ -230,7 +236,7 @@ and `$PWD` shell syntax.
    .\gradlew.bat assemble
    ```
 
-   This produces `build/libs/WatchWolf-0.4.0-1.8-LATEST.jar`. On Linux, use
+   This produces `build/libs/WatchWolf-0.4.1-1.8-LATEST.jar`. On Linux, use
    `./gradlew assemble`. Gradle fetches the Spigot **API** for compilation, so no local Spigot
    server JAR is needed. It also resolves and shades Core `0.3.3`. The Servers Manager uses
    Core `0.3.1` for its own build.
@@ -245,8 +251,8 @@ and `$PWD` shell syntax.
    New-Item -ItemType Directory -Force lib,ci/release/usual-plugins,ci/release/tmp,ci/release/logs | Out-Null
    docker run --rm -v "${PWD}/lib:/out" maven:3.9-eclipse-temurin-17 curl -fL https://github.com/watch-wolf/WatchWolf-Core/releases/download/v0.3.1/watchwolf-core-0.3.1.jar -o /out/watchwolf-core-0.3.1.jar
    docker run --rm -v "${PWD}:/compile" -w /compile maven:3.9-eclipse-temurin-17 mvn -B clean package
-   Copy-Item target/watchwolf-servers-manager-0.4.0.jar ci/release/ServersManager.jar
-   Copy-Item ../WatchWolf-Server/build/libs/WatchWolf-0.4.0-1.8-LATEST.jar ci/release/usual-plugins/
+   Copy-Item target/watchwolf-servers-manager-0.4.1.jar ci/release/ServersManager.jar
+   Copy-Item ../WatchWolf-Server/build/libs/WatchWolf-0.4.1-1.8-LATEST.jar ci/release/usual-plugins/
    ```
 
    The manager's Maven `clean` phase installs the Core JAR from `lib/`. Rebuild and recopy
