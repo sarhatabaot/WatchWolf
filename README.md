@@ -53,16 +53,18 @@ The fork release workflows publish two control-plane images to GitHub Container 
 
 Release in this order:
 
-1. Push tag `v0.3.1` to the WatchWolf-Server fork. Its workflow builds the plugin JAR and
+1. Push tag `v0.4.0` to the WatchWolf-Server fork. Its workflow builds the plugin JAR and
    creates the release with that JAR and its checksum. Do not publish this release manually;
    for a newer version, update its Gradle version first.
 2. Check `WATCHWOLF_SERVER_VERSION` in the ServersManager release workflow, then publish a
-   ServersManager release tagged `v0.3.3`. Its image build downloads that exact plugin asset.
+   ServersManager release tagged `v0.4.0`. Its image build downloads that exact plugin asset.
    The tag must match the ServersManager Maven version.
 3. Check `CLIENT_SOURCE_REF` in this repository's Clients Manager release workflow. Publish a
-   WatchWolf release with the **same tag as the ServersManager image**, such as `v0.3.3`.
+   WatchWolf release with the **same tag as the ServersManager image**, such as `v0.4.0`.
    This builds the matching Clients Manager image.
-4. If users should pull without authenticating, set both GHCR packages to **public** in GitHub
+4. Push tag `v0.4.0` to the WatchWolf-Tester fork. Its workflow publishes the Tester JAR and
+   checksum. Run its integration tests against the release setup separately.
+5. If users should pull without authenticating, set both GHCR packages to **public** in GitHub
    package settings. New GHCR packages initially have private visibility.
 
 After both images exist, copy `release.env.example` to `release.env`, set the release tag and
@@ -228,7 +230,7 @@ and `$PWD` shell syntax.
    .\gradlew.bat assemble
    ```
 
-   This produces `build/libs/WatchWolf-0.3.1-1.8-LATEST.jar`. On Linux, use
+   This produces `build/libs/WatchWolf-0.4.0-1.8-LATEST.jar`. On Linux, use
    `./gradlew assemble`. Gradle fetches the Spigot **API** for compilation, so no local Spigot
    server JAR is needed. It also resolves and shades Core `0.3.3`. The Servers Manager uses
    Core `0.3.1` for its own build.
@@ -243,8 +245,8 @@ and `$PWD` shell syntax.
    New-Item -ItemType Directory -Force lib,ci/release/usual-plugins,ci/release/tmp,ci/release/logs | Out-Null
    docker run --rm -v "${PWD}/lib:/out" maven:3.9-eclipse-temurin-17 curl -fL https://github.com/watch-wolf/WatchWolf-Core/releases/download/v0.3.1/watchwolf-core-0.3.1.jar -o /out/watchwolf-core-0.3.1.jar
    docker run --rm -v "${PWD}:/compile" -w /compile maven:3.9-eclipse-temurin-17 mvn -B clean package
-   Copy-Item target/watchwolf-servers-manager-0.3.3.jar ci/release/ServersManager.jar
-   Copy-Item ../WatchWolf-Server/build/libs/WatchWolf-0.3.1-1.8-LATEST.jar ci/release/usual-plugins/
+   Copy-Item target/watchwolf-servers-manager-0.4.0.jar ci/release/ServersManager.jar
+   Copy-Item ../WatchWolf-Server/build/libs/WatchWolf-0.4.0-1.8-LATEST.jar ci/release/usual-plugins/
    ```
 
    The manager's Maven `clean` phase installs the Core JAR from `lib/`. Rebuild and recopy
