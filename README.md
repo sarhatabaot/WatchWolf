@@ -149,12 +149,15 @@ Once it is up, point your tests at the machine running it (see the Tester's
 
 ## Development setup for the sarhatabaot forks
 
+For a runnable Bukkit plugin and an IDE test using the Compose control plane, see the
+[example plugin](examples/hello-plugin/README.md).
+
 From the workspace parent directory, use the **local source and artifacts** from these sibling
 repositories. The current feature
 branches are `feature/docker-runtime-modernization` in `WatchWolf` and
 `feature/itzg-minecraft-runtime` in `WatchWolf-ServersManager`, and `feature/gradle-build` in
-`WatchWolf-Server`; `WatchWolf-Tester` remains on `dev`. These branches are local until pushed,
-so use the existing workspace if a fresh clone cannot see them. For a new workspace, clone the forks from
+`WatchWolf-Server`; `WatchWolf-Tester` remains on `dev`. Use the existing workspace if a fresh clone
+cannot see a feature branch. For a new workspace, clone the forks from
 `github.com/sarhatabaot`, then check out the feature branches after they are published:
 
 ```powershell
