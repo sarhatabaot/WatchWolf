@@ -6,7 +6,7 @@
 
     <groupId>dev.watchwolfx</groupId>
     <artifactId>watchwolfx-core</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.1</version>
     <packaging>jar</packaging>
 
     <properties>
