@@ -51,21 +51,21 @@ The fork release workflows publish two control-plane images to GitHub Container 
 - `ghcr.io/sarhatabaot/watchwolf-clients-manager:<tag>` is built by this repository from a
   pinned commit of the upstream WatchWolf-Client repository.
 
-`v0.4.2` supersedes the `v0.4.1` release line. Select a ref containing the `0.4.2`
+`v0.4.3` supersedes the `v0.4.2` release line. Select a ref containing the `0.4.3`
 version and workflows when creating each release in the GitHub UI.
 
 Release in this order:
 
-1. Publish the WatchWolf-Server release `v0.4.2` through the GitHub UI. Its workflow builds
+1. Publish the WatchWolf-Server release `v0.4.3` through the GitHub UI. Its workflow builds
    the plugin JAR and uploads it with a checksum to that release. Wait for the assets to appear.
 2. Check `WATCHWOLF_SERVER_VERSION` in the ServersManager release workflow, then publish a
-   ServersManager release tagged `v0.4.2` through the GitHub UI. Its image build downloads
+   ServersManager release tagged `v0.4.3` through the GitHub UI. Its image build downloads
    that exact plugin asset.
    The tag must match the ServersManager Gradle version.
 3. Check `CLIENT_SOURCE_REF` in this repository's Clients Manager release workflow. Publish a
-   WatchWolf release with the **same tag as the ServersManager image**, such as `v0.4.2`.
+   WatchWolf release with the **same tag as the ServersManager image**, such as `v0.4.3`.
    This builds the matching Clients Manager image.
-4. Publish the WatchWolf-Tester release `v0.4.2` through the GitHub UI. Its workflow uploads
+4. Publish the WatchWolf-Tester release `v0.4.3` through the GitHub UI. Its workflow uploads
    the Tester JAR and checksum to that release. Run its integration tests against the release
    setup separately.
 5. If users should pull without authenticating, set both GHCR packages to **public** in GitHub
@@ -236,7 +236,7 @@ and `$PWD` shell syntax.
    .\gradlew.bat assemble
    ```
 
-   This produces `build/libs/WatchWolf-0.4.2-1.8-LATEST.jar`. On Linux, use
+   This produces `build/libs/WatchWolf-0.4.3-1.8-LATEST.jar`. On Linux, use
    `./gradlew assemble`. Gradle fetches the Spigot **API** for compilation, so no local Spigot
    server JAR is needed. It also resolves and shades Core `0.3.3`. The Servers Manager uses
    Core `0.3.1` for its own build.
@@ -251,8 +251,8 @@ and `$PWD` shell syntax.
    New-Item -ItemType Directory -Force lib,ci/release/usual-plugins,ci/release/tmp,ci/release/logs | Out-Null
    docker run --rm -v "${PWD}/lib:/out" maven:3.9-eclipse-temurin-17 curl -fL https://github.com/watch-wolf/WatchWolf-Core/releases/download/v0.3.1/watchwolf-core-0.3.1.jar -o /out/watchwolf-core-0.3.1.jar
    docker run --rm -v "${PWD}:/compile" -w /compile gradle:9.7.1-jdk17 gradle --no-daemon clean shadowJar -x test
-   Copy-Item build/libs/watchwolf-servers-manager-0.4.2.jar ci/release/ServersManager.jar
-   Copy-Item ../WatchWolf-Server/build/libs/WatchWolf-0.4.2-1.8-LATEST.jar ci/release/usual-plugins/
+   Copy-Item build/libs/watchwolf-servers-manager-0.4.3.jar ci/release/ServersManager.jar
+   Copy-Item ../WatchWolf-Server/build/libs/WatchWolf-0.4.3-1.8-LATEST.jar ci/release/usual-plugins/
    ```
 
    The manager consumes the Core JAR directly from `lib/`. Rebuild and recopy
