@@ -37,9 +37,14 @@ example or publishing another WatchWolfX version:
 ```env
 WATCHWOLFX_SERVERMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-servermanager:v0.5.0
 WATCHWOLFX_CLIENTSMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-clientsmanager:v0.5.0
+WATCHWOLFX_RELEASE_REPOSITORY=sarhatabaot/WatchWolf
 WATCHWOLF_ITZG_IMAGE=itzg/minecraft-server
 WATCHWOLF_ITZG_TAG=auto
 ```
+
+`WATCHWOLFX_RELEASE_REPOSITORY` controls where Gradle downloads the Tester release asset. The
+default is the repository's current GitHub name; it can be changed after a repository transfer
+or rename without editing the build.
 
 The Compose and Gradle flow targets `v0.5.0`. The WatchWolfX control-plane images were smoke
 tested on Windows Docker Desktop with Linux containers. Linux Docker Engine has not been run

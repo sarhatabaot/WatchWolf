@@ -8,6 +8,8 @@ group = "dev.watchwolfx"
 version = "0.5.0"
 
 val coreVersion = "0.5.0"
+val githubRepository = providers.environmentVariable("GITHUB_REPOSITORY")
+    .orElse("sarhatabaot/WatchWolfX")
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
@@ -51,7 +53,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/sarhatabaot/WatchWolfX")
+            url = uri("https://maven.pkg.github.com/${githubRepository.get()}")
             credentials {
                 username = providers.environmentVariable("GITHUB_ACTOR").orNull
                 password = providers.environmentVariable("GITHUB_TOKEN").orNull

@@ -76,7 +76,7 @@ classes under `entities.blocks.special` are generated too, but by a different to
 ## Use it as a dependency
 
 Releases are published to GitHub Packages
-(`https://maven.pkg.github.com/sarhatabaot/WatchWolfX`) and attached to
+(`https://maven.pkg.github.com/<owner>/<repository>`, selected from `GITHUB_REPOSITORY`) and attached to
 [GitHub releases](https://github.com/watch-wolf/WatchWolf-Core/releases). The other WatchWolf
 modules take the simpler route: drop the jar into `lib/` and let Maven install it locally.
 

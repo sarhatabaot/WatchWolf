@@ -6,6 +6,9 @@ plugins {
 group = "dev.watchwolfx"
 version = "0.5.0"
 
+val githubRepository = providers.environmentVariable("GITHUB_REPOSITORY")
+    .orElse("sarhatabaot/WatchWolfX")
+
 base {
     archivesName.set("watchwolfx-tester")
 }
@@ -37,7 +40,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/sarhatabaot/WatchWolfX")
+            url = uri("https://maven.pkg.github.com/${githubRepository.get()}")
             credentials {
                 username = providers.environmentVariable("GITHUB_ACTOR").orNull
                 password = providers.environmentVariable("GITHUB_TOKEN").orNull

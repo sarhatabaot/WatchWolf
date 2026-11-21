@@ -82,7 +82,8 @@ set `GITHUB_ACTOR` and `GITHUB_TOKEN` (with package publish access), then run:
 ./ci/publish.sh
 ```
 
-This publishes the shaded JAR to `https://maven.pkg.github.com/sarhatabaot/WatchWolf-Server`.
+In GitHub Actions this publishes the shaded JAR to the package repository selected by
+`GITHUB_REPOSITORY`.
 
 ## Testing
 
