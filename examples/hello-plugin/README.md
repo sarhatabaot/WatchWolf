@@ -31,6 +31,16 @@ When you change this example plugin, rerun the Gradle test; Compose does not nee
 The first run may take several minutes while dependencies and Paper download. Compose stores
 manager logs in a named volume and gives only ServersManager access to the Docker socket.
 
+The control-plane images and itzg runtime are independently overrideable without changing the
+example or publishing another WatchWolfX version:
+
+```env
+WATCHWOLFX_SERVERMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-servermanager:v0.5.0
+WATCHWOLFX_CLIENTSMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-clientsmanager:v0.5.0
+WATCHWOLF_ITZG_IMAGE=itzg/minecraft-server
+WATCHWOLF_ITZG_TAG=auto
+```
+
 The Compose and Gradle flow targets `v0.5.0`. The WatchWolfX control-plane images were smoke
 tested on Windows Docker Desktop with Linux containers. Linux Docker Engine has not been run
 for this example in this workspace.
