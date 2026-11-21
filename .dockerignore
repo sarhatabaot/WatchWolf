@@ -1,0 +1,11 @@
+*
+!watchwolfx-server/
+!watchwolfx-server/**
+!watchwolfx-servermanager/
+!watchwolfx-servermanager/**
+!watchwolfx-core/
+!watchwolfx-core/**
+**/.gradle
+**/build
+**/logs
+**/tmp

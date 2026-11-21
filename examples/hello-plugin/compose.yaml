@@ -2,7 +2,7 @@ name: watchwolf-example
 
 services:
   servers-manager:
-    image: ghcr.io/sarhatabaot/watchwolf-servers-manager:v0.4.3
+    image: ghcr.io/sarhatabaot/watchwolfx-servermanager:v0.5.0
     ports:
       - "8000:8000"
     environment:
@@ -16,13 +16,13 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - watchwolf_logs:/servers/logs
     healthcheck:
-      test: ["CMD-SHELL", "bash -c 'echo > /dev/tcp/127.0.0.1/8000'"]
+      test: ["CMD", "nc", "-z", "127.0.0.1", "8000"]
       interval: 5s
       timeout: 2s
       retries: 24
 
   clients-manager:
-    image: ghcr.io/sarhatabaot/watchwolf-clients-manager:v0.4.3
+    image: ghcr.io/sarhatabaot/watchwolfx-clientsmanager:v0.5.0
     ports:
       - "7000-7199:7000-7199"
     environment:

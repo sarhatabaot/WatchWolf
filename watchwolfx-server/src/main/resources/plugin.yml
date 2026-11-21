@@ -1,0 +1,6 @@
+name: WatchWolf
+main: dev.watchwolf.server.Server
+version: "${version}"
+author: rogermiranda1000
+api-version: 1.13
+softdepend: [WorldGuard,Residence]

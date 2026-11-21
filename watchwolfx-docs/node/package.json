@@ -1,0 +1,10 @@
+{
+  "name": "watchwolfx-api-docs-node-runtime",
+  "version": "0.5.0",
+  "private": true,
+  "description": "Locked bytefield renderer for WatchWolfX API documentation",
+  "license": "MIT",
+  "dependencies": {
+    "bytefield-svg": "1.12.0"
+  }
+}

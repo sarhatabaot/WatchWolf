@@ -5,7 +5,7 @@ dependencyResolutionManagement {
         mavenCentral()
         maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
         ivy {
-            url = uri("https://github.com/sarhatabaot/WatchWolf-Tester/releases/download/")
+            url = uri("https://github.com/sarhatabaot/WatchWolfX/releases/download/")
             patternLayout {
                 artifact("v[revision]/[artifact]-[revision].[ext]")
             }
@@ -13,7 +13,7 @@ dependencyResolutionManagement {
                 artifact()
             }
             content {
-                includeModule("dev.watchwolf", "watchwolf-tester")
+                includeModule("dev.watchwolfx", "watchwolfx-tester")
             }
         }
     }

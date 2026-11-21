@@ -7,9 +7,10 @@ on the server.
 ## Run from an IDE
 
 You need Docker Engine with Linux containers, a JDK supported by Gradle 9, and network access
-for the first dependency and Paper downloads. The Compose file uses the published WatchWolf
-`v0.4.3` ServersManager and Clients Manager images. The test resolves the WatchWolf-Tester
-`v0.4.3` JAR from its GitHub Release. No sibling WatchWolf source checkouts are needed.
+for the first dependency and Paper downloads. The Compose file uses the published WatchWolfX
+`v0.5.0` ServerManager and ClientsManager images. The test resolves the WatchWolfX Tester
+`v0.5.0` JAR from the WatchWolfX GitHub Release. No sibling WatchWolfX source checkouts are
+needed.
 
 1. From this directory, run `docker compose up --wait -d`. Compose starts the control plane
    and waits for ports 7000 and 8000. ServersManager uses the itzg Paper runtime and creates
@@ -30,6 +31,6 @@ When you change this example plugin, rerun the Gradle test; Compose does not nee
 The first run may take several minutes while dependencies and Paper download. Compose stores
 manager logs in a named volume and gives only ServersManager access to the Docker socket.
 
-The Compose and Gradle flow now targets `v0.4.3`. The previous `v0.4.2` flow passed on Windows
-Docker Desktop with Linux containers. Linux Docker Engine has not been run for this example in
-this workspace.
+The Compose and Gradle flow targets `v0.5.0`. The WatchWolfX control-plane images were smoke
+tested on Windows Docker Desktop with Linux containers. Linux Docker Engine has not been run
+for this example in this workspace.
