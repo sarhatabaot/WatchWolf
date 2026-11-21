@@ -1,0 +1,43 @@
+[build-system]
+requires = ["uv_build>=0.9.18,<0.14.0"]
+build-backend = "uv_build"
+
+[project]
+name = "watchwolfx-clientsmanager"
+version = "0.5.0"
+description = "WatchWolfX ClientsManager and headless Minecraft client"
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+license = "MIT"
+dependencies = [
+    "imageio[ffmpeg]>=2.37,<3",
+    "javascript==1!1.0.0",
+    "numpy>=2,<3",
+]
+
+[project.scripts]
+watchwolfx-clientsmanager = "watchwolfx_clientsmanager.clients_manager:main"
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.31,<2",
+    "pytest>=9,<10",
+    "ruff>=0.14,<0.15",
+]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "C4", "SIM", "RUF"]
+
+[tool.basedpyright]
+pythonVersion = "3.12"
+typeCheckingMode = "standard"
+include = ["src", "tests"]
+reportMissingTypeStubs = false
+
+[tool.pytest.ini_options]
+addopts = ["--strict-config", "--strict-markers"]
+testpaths = ["tests"]

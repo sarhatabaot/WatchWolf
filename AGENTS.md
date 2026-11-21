@@ -1,106 +1,71 @@
-# AGENTS.md — WatchWolf (standard)
+# AGENTS.md — WatchWolfX monorepo
 
-This repository is the **specification**, not an implementation. It holds the WatchWolf wire
-protocol, the machine-readable API definitions generated from it, and the script that installs a
-working environment. Nothing here compiles; almost everything here is either LaTeX, JSON, or a
-Bash script.
+WatchWolfX is an independently maintained hard fork of WatchWolf. It is not affiliated with the
+upstream WatchWolf project. Preserve links and attribution so users can distinguish the projects.
 
-Repo: `https://github.com/watch-wolf/WatchWolf` · default branch `main`, development on `dev`.
+## Repository layout
 
-## What lives where
-
-| Path | Role |
+| Path | Responsibility |
 | --- | --- |
-| `API/API.tex` | **Source of truth for the protocol.** Every operation, argument and data type. |
-| `API/API.pdf` | Rendered spec, committed on purpose (people link to it). |
-| `API/A-Blocks.tex` | Appendix: every block type and its properties (~2 300 lines). |
-| `API/diagram.tex`, `API/glossaries.tex`, `API/sample.bib` | Included by `API.tex`. |
-| `API/definitions/*.json` | Machine-readable subset of the spec, one file per module. |
-| `API/definitions/*.md`, `API/definitions/<module>/*.svg` | **Generated.** Never edit. |
-| `api-docs.py` + `api-docs.Dockerfile` | Renders the JSON into those `.md`/`.svg` files. |
-| `WatchWolfSetup.sh` | build / install / uninstall / run the whole environment. |
-| `Diagram.mdj` | StarUML model. |
+| `watchwolfx-docs/` | Website/docs, protocol specification, API definitions and migration notes |
+| `watchwolfx-clientsmanager/` | Python/Node Clients Manager and headless Minecraft Client |
+| `watchwolfx-server/` | Bukkit/Paper in-server plugin |
+| `watchwolfx-servermanager/` | Dynamic Minecraft provisioning and Docker lifecycle |
+| `watchwolfx-tester/` | Java/JUnit test orchestration library |
+| `watchwolfx-core/` | Shared entities, RPC runtime and stub generator |
 
-## Packet format (needed to read anything here)
+Root Compose, environment examples, CI, release orchestration and cross-module
+documentation belong at the repository root. Dynamic Minecraft lifecycle logic remains in
+`watchwolfx-servermanager`.
 
-16-bit header, sent LSB first, then the arguments:
+Each module retains its own `AGENTS.md` where one existed. Read the closest applicable file before
+editing. Root instructions apply everywhere; module instructions add implementation details.
 
-```
-bits 15..4  operation      bit 3  r (response)      bits 2..0  DST
-```
+## Migration rules
 
-`DST`: `0b000` Servers Manager · `0b001` Server · `0b010` Clients Manager · `0b011` Client.
-`r = 1` marks a reply or an async notification, and `DST` then means *origin*.
-Operation `0` is always a NOP keep-alive.
+- The 0.5.0 release is the WatchWolfX naming cut-over. Do not rename previously published 0.4.x
+  artifacts.
+- Keep Java packages under `dev.watchwolf` for 0.5.0 unless a separately reviewed compatibility
+  plan says otherwise.
+- Release modules as separate packages/images even though their source is co-located.
+- Do not introduce Git submodules.
+- Do not rewrite archived repository history. Preserve upstream attribution and remotes.
+- Do not import build outputs, IDE state, runtime worlds, logs, server JARs, credentials or other
+  generated data.
+- Work on a dedicated feature/fix branch. Do not force-push or commit directly to a protected
+  default branch.
 
-You will see these as literals in the implementations, e.g. `0b000000000100_0_011` in
-WatchWolf-Client is "operation 4, request, to the Client".
+## Runtime modernization rules
 
-## Common tasks
+Read `watchwolfx-docs/engineering/runtime-inventory.md` and the workspace-level `DESIGN.md` before
+changing Minecraft provisioning. Preserve the existing external protocol and legacy provider while
+the itzg runtime is stabilized. ServersManager continues to launch ephemeral Minecraft containers;
+they must not become static Compose services.
 
-### Regenerate the definition docs
+The preferred boundary is the existing `MinecraftRuntimeProvider` implementation in
+`watchwolfx-servermanager`. Keep readiness tied to usable Minecraft/WatchWolf-Server state, not
+merely Docker's `running` state. Keep cleanup idempotent and `/data` isolated. Never mount the
+Docker socket into Minecraft containers.
 
-```bash
-sudo docker build -f api-docs.Dockerfile --tag api-docs-builder .
-sudo docker run -i --rm --name API-docs-builder \
-    -v ./API/definitions:/app/API/definitions api-docs-builder:latest
-```
+## Builds and tests
 
-`api-docs.py` walks every `.json` in `API/definitions/`, emits one SVG per petition / return /
-async-return via `bytefield-svg`, and one `.md` per module. Edit the JSON, re-run this — do not
-touch the outputs.
+The imported projects intentionally retain their established build systems during the first
+monorepo migration step:
 
-### Build the PDF
+- Core: Maven through `watchwolfx-core/ci/*.sh`.
+- Server, ServerManager and Tester: their checked-in Gradle wrappers.
+- ClientsManager: Docker image plus `watchwolfx-clientsmanager/ci/tests.sh`.
+- Docs/API: tools under `watchwolfx-docs/`.
 
-```bash
-cd API
-pdflatex -synctex=1 -interaction=nonstopmode API.tex
-bibtex API && makeglossaries API
-pdflatex -synctex=1 -interaction=nonstopmode API.tex
-pdflatex -synctex=1 -interaction=nonstopmode API.tex
-```
+Do not claim a unified root Gradle build exists until all module dependencies and Java toolchains
+have actually been reconciled. Distinguish fast checks from real Docker/Minecraft integration
+tests, and record exact versions and outcomes for live runs.
 
-Four passes are required (glossaries + apacite). `.gitignore` keeps every intermediate out; only
-`API.tex`, `API.pdf` and the other `.tex`/`.bib` sources are tracked.
+## Documentation continuity
 
-## Conventions and gotchas
-
-- **`API.tex` first.** A protocol change lands in the LaTeX spec, then in the JSON definition,
-  then in the implementations. The JSON currently covers *only* the Servers Manager; every other
-  module is described in the PDF alone.
-- **JSON schema.** Each file is `{"WatchWolfComponent": {...}}` with `name`, `description`,
-  `version`, `DestinyId` (the DST value), `petitions[]` and `AsyncReturns[]`. Every petition's
-  `contents[0]` must be `{"type": "_operation", "value": N}` — `api-docs.py` asserts this.
-  A petition may carry a `return`; an async return may carry `RelatesTo`.
-- **`api-docs.py` needs Python 3.12+.** It uses f-strings with the same quote character nested
-  inside the expression (`f"{petition["name"]}"`), which is a syntax error on older interpreters.
-  Run it through `api-docs.Dockerfile` rather than the system Python.
-- **`api-docs.py` only knows a few types.** `_contentToEntry` handles `String`, `ServerType`,
-  arrays (`Foo[]`) and `WorldType`; anything else raises `Unrecognised type`. Adding a new
-  argument type to a definition means teaching that function about it.
-- **Downstream pin.** WatchWolf-Core generates its RPC stubs from a *pinned commit* of
-  `API/definitions/servers_manager.json` — see `LATEST_DEFINITIONS_LIST` in
-  `src/scripts/java/dev/watchwolf/rpc/DefinitionDataFactory.java` in that repo. Changing the JSON
-  here has no effect downstream until that URL's SHA is bumped.
-- **`WatchWolfSetup.sh` is Ubuntu/WSL-only** and assumes `docker`, `jq`, `wget`, `curl` and
-  `dos2unix`. It clones `WatchWolf-ServersManager` and `WatchWolf-Client` into
-  `$HOME/WatchWolf/{ServersManager,ClientsManager}` and reaches out to `watchwolf.dev` for the
-  "usual plugins" list and the latest WatchWolf-Server jar. The `--install` path writes a systemd
-  unit (non-WSL) or a Startup `.bat` (WSL) — treat it as destructive.
-- **`WatchWolfSetup.sh` has drifted from the ServersManager.** It pulls `openjdk:{8,16,17}`, but
-  `DockerizedServerInstantiator.getDockerImageForJavaVersion` now launches servers on
-  `eclipse-temurin:<v>-jdk` and `DockerUtilities.getJavaVersion` returns **21** for MC 1.20.5+.
-  The images the script pre-pulls are the wrong names and miss 21, so those pulls happen lazily
-  (or fail) at server-start time.
-- The setup script's `--build` mode **deletes** `$HOME/WatchWolf/ServersManager` and
-  `.../ClientsManager` before cloning (it backs up `server-types/` and `usual-plugins/` to a
-  temp dir first). Do not run it against a path holding anything else.
-
-## Git conventions
-
-- **`dev` is the working branch.** Every WatchWolf repo integrates and releases from `dev`.
-  `master` (`main` in the WatchWolf standard repo) is downstream of it — never commit there
-  directly, and never open a PR against it.
-- **One branch per change, named for its kind:** `fix/<topic>` for defects, `feature/<topic>` for
-  new work. Branch from `dev`.
-- **Always open a PR into `dev`.** Do not push straight to `dev`, even for a one-line change.
+- Active migration state belongs in `watchwolfx-docs/current-work.md`.
+- Runtime discoveries belong in `watchwolfx-docs/engineering/`.
+- Consequential architecture decisions should use a short ADR under
+  `watchwolfx-docs/decisions/`.
+- Generated API Markdown/SVG files must be regenerated from the JSON definitions; do not edit
+  them by hand.

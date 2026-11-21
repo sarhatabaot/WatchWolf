@@ -1,0 +1,8 @@
+name: WatchWolfExample
+main: dev.watchwolf.example.CounterPlugin
+version: 1.0.0
+api-version: 1.13
+commands:
+  samplecounter:
+    description: Shows or increments the sample counter
+    usage: /samplecounter get | add <amount>

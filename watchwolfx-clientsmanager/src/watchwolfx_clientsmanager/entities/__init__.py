@@ -1,0 +1,1 @@
+"""Minecraft entity wire types."""

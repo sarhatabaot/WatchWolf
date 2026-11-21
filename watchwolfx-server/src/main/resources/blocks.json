@@ -1,0 +1,2074 @@
+{
+    "blocks": [
+        {
+            "base": "acacia_door",
+            "default": "430:0",
+            "modifiers": []
+        },
+        {
+            "base": "acacia_fence",
+            "default": "192:0",
+            "modifiers": []
+        },
+        {
+            "base": "acacia_fence_gate",
+            "default": "187:0",
+            "modifiers": []
+        },
+        {
+            "base": "acacia_stairs",
+            "default": "163:0",
+            "modifiers": []
+        },
+        {
+            "base": "air",
+            "default": "0:0",
+            "modifiers": []
+        },
+        {
+            "base": "anvil",
+            "default": "145:0",
+            "modifiers": []
+        },
+        {
+            "base": "black_banner",
+            "default": "425:0",
+            "modifiers": []
+        },
+        {
+            "base": "red_banner",
+            "default": "425:1",
+            "modifiers": []
+        },
+        {
+            "base": "green_banner",
+            "default": "425:2",
+            "modifiers": []
+        },
+        {
+            "base": "brown_banner",
+            "default": "425:3",
+            "modifiers": []
+        },
+        {
+            "base": "blue_banner",
+            "default": "425:4",
+            "modifiers": []
+        },
+        {
+            "base": "purple_banner",
+            "default": "425:5",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_banner",
+            "default": "425:6",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_banner",
+            "default": "425:7",
+            "modifiers": []
+        },
+        {
+            "base": "gray_banner",
+            "default": "425:8",
+            "modifiers": []
+        },
+        {
+            "base": "pink_banner",
+            "default": "425:9",
+            "modifiers": []
+        },
+        {
+            "base": "lime_banner",
+            "default": "425:10",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_banner",
+            "default": "425:11",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_banner",
+            "default": "425:12",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_banner",
+            "default": "425:13",
+            "modifiers": []
+        },
+        {
+            "base": "orange_banner",
+            "default": "425:14",
+            "modifiers": []
+        },
+        {
+            "base": "white_banner",
+            "default": "425:15",
+            "modifiers": []
+        },
+        {
+            "base": "barrier",
+            "default": "166:0",
+            "modifiers": []
+        },
+        {
+            "base": "beacon",
+            "default": "138:0",
+            "modifiers": []
+        },
+        {
+            "base": "white_bed",
+            "default": "355:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_bed",
+            "default": "355:1",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_bed",
+            "default": "355:2",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_bed",
+            "default": "355:3",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_bed",
+            "default": "355:4",
+            "modifiers": []
+        },
+        {
+            "base": "lime_bed",
+            "default": "355:5",
+            "modifiers": []
+        },
+        {
+            "base": "pink_bed",
+            "default": "355:6",
+            "modifiers": []
+        },
+        {
+            "base": "gray_bed",
+            "default": "355:7",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_bed",
+            "default": "355:8",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_bed",
+            "default": "355:9",
+            "modifiers": []
+        },
+        {
+            "base": "purple_bed",
+            "default": "355:10",
+            "modifiers": []
+        },
+        {
+            "base": "blue_bed",
+            "default": "355:11",
+            "modifiers": []
+        },
+        {
+            "base": "brown_bed",
+            "default": "355:12",
+            "modifiers": []
+        },
+        {
+            "base": "green_bed",
+            "default": "355:13",
+            "modifiers": []
+        },
+        {
+            "base": "red_bed",
+            "default": "355:14",
+            "modifiers": []
+        },
+        {
+            "base": "black_bed",
+            "default": "355:15",
+            "modifiers": []
+        },
+        {
+            "base": "bedrock",
+            "default": "7:0",
+            "modifiers": []
+        },
+        {
+            "base": "birch_door",
+            "default": "428:0",
+            "modifiers": []
+        },
+        {
+            "base": "birch_fence",
+            "default": "189:0",
+            "modifiers": []
+        },
+        {
+            "base": "birch_fence_gate",
+            "default": "184:0",
+            "modifiers": []
+        },
+        {
+            "base": "birch_stairs",
+            "default": "135:0",
+            "modifiers": []
+        },
+        {
+            "base": "black_glazed_terracotta",
+            "default": "250:0",
+            "modifiers": []
+        },
+        {
+            "base": "black_shulker_box",
+            "default": "234:0",
+            "modifiers": []
+        },
+        {
+            "base": "blue_glazed_terracotta",
+            "default": "246:0",
+            "modifiers": []
+        },
+        {
+            "base": "blue_shulker_box",
+            "default": "230:0",
+            "modifiers": []
+        },
+        {
+            "base": "bone_block",
+            "default": "216:0",
+            "modifiers": []
+        },
+        {
+            "base": "bookshelf",
+            "default": "47:0",
+            "modifiers": []
+        },
+        {
+            "base": "brewing_stand",
+            "default": "379:0",
+            "modifiers": []
+        },
+        {
+            "base": "bricks",
+            "default": "45:0",
+            "modifiers": []
+        },
+        {
+            "base": "brick_stairs",
+            "default": "108:0",
+            "modifiers": []
+        },
+        {
+            "base": "brown_glazed_terracotta",
+            "default": "247:0",
+            "modifiers": []
+        },
+        {
+            "base": "brown_mushroom",
+            "default": "39:0",
+            "modifiers": []
+        },
+        {
+            "base": "brown_mushroom_block",
+            "default": "99:0",
+            "modifiers": []
+        },
+        {
+            "base": "brown_shulker_box",
+            "default": "231:0",
+            "modifiers": []
+        },
+        {
+            "base": "cactus",
+            "default": "81:0",
+            "modifiers": []
+        },
+        {
+            "base": "cake",
+            "default": "354:0",
+            "modifiers": []
+        },
+        {
+            "base": "white_carpet",
+            "default": "171:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_carpet",
+            "default": "171:1",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_carpet",
+            "default": "171:2",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_carpet",
+            "default": "171:3",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_carpet",
+            "default": "171:4",
+            "modifiers": []
+        },
+        {
+            "base": "lime_carpet",
+            "default": "171:5",
+            "modifiers": []
+        },
+        {
+            "base": "pink_carpet",
+            "default": "171:6",
+            "modifiers": []
+        },
+        {
+            "base": "gray_carpet",
+            "default": "171:7",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_carpet",
+            "default": "171:8",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_carpet",
+            "default": "171:9",
+            "modifiers": []
+        },
+        {
+            "base": "purple_carpet",
+            "default": "171:10",
+            "modifiers": []
+        },
+        {
+            "base": "blue_carpet",
+            "default": "171:11",
+            "modifiers": []
+        },
+        {
+            "base": "brown_carpet",
+            "default": "171:12",
+            "modifiers": []
+        },
+        {
+            "base": "green_carpet",
+            "default": "171:13",
+            "modifiers": []
+        },
+        {
+            "base": "red_carpet",
+            "default": "171:14",
+            "modifiers": []
+        },
+        {
+            "base": "black_carpet",
+            "default": "171:15",
+            "modifiers": []
+        },
+        {
+            "base": "cauldron",
+            "default": "380:0",
+            "modifiers": []
+        },
+        {
+            "base": "chain_command_block",
+            "default": "211:0",
+            "modifiers": []
+        },
+        {
+            "base": "chest",
+            "default": "54:0",
+            "modifiers": []
+        },
+        {
+            "base": "chorus_flower",
+            "default": "200:0",
+            "modifiers": []
+        },
+        {
+            "base": "chorus_plant",
+            "default": "199:0",
+            "modifiers": []
+        },
+        {
+            "base": "coal_block",
+            "default": "173:0",
+            "modifiers": []
+        },
+        {
+            "base": "coal_ore",
+            "default": "16:0",
+            "modifiers": []
+        },
+        {
+            "base": "cobblestone",
+            "default": "4:0",
+            "modifiers": []
+        },
+        {
+            "base": "cobblestone_wall",
+            "default": "139:0",
+            "modifiers": []
+        },
+        {
+            "base": "mossy_cobblestone_wall",
+            "default": "139:1",
+            "modifiers": []
+        },
+        {
+            "base": "command_block",
+            "default": "137:0",
+            "modifiers": []
+        },
+        {
+            "base": "white_concrete",
+            "default": "251:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_concrete",
+            "default": "251:1",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_concrete",
+            "default": "251:2",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_concrete",
+            "default": "251:3",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_concrete",
+            "default": "251:4",
+            "modifiers": []
+        },
+        {
+            "base": "lime_concrete",
+            "default": "251:5",
+            "modifiers": []
+        },
+        {
+            "base": "pink_concrete",
+            "default": "251:6",
+            "modifiers": []
+        },
+        {
+            "base": "gray_concrete",
+            "default": "251:7",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_concrete",
+            "default": "251:8",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_concrete",
+            "default": "251:9",
+            "modifiers": []
+        },
+        {
+            "base": "purple_concrete",
+            "default": "251:10",
+            "modifiers": []
+        },
+        {
+            "base": "blue_concrete",
+            "default": "251:11",
+            "modifiers": []
+        },
+        {
+            "base": "brown_concrete",
+            "default": "251:12",
+            "modifiers": []
+        },
+        {
+            "base": "green_concrete",
+            "default": "251:13",
+            "modifiers": []
+        },
+        {
+            "base": "red_concrete",
+            "default": "251:14",
+            "modifiers": []
+        },
+        {
+            "base": "black_concrete",
+            "default": "251:15",
+            "modifiers": []
+        },
+        {
+            "base": "white_concrete_powder",
+            "default": "252:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_concrete_powder",
+            "default": "252:1",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_concrete_powder",
+            "default": "252:2",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_concrete_powder",
+            "default": "252:3",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_concrete_powder",
+            "default": "252:4",
+            "modifiers": []
+        },
+        {
+            "base": "lime_concrete_powder",
+            "default": "252:5",
+            "modifiers": []
+        },
+        {
+            "base": "pink_concrete_powder",
+            "default": "252:6",
+            "modifiers": []
+        },
+        {
+            "base": "gray_concrete_powder",
+            "default": "252:7",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_concrete_powder",
+            "default": "252:8",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_concrete_powder",
+            "default": "252:9",
+            "modifiers": []
+        },
+        {
+            "base": "purple_concrete_powder",
+            "default": "252:10",
+            "modifiers": []
+        },
+        {
+            "base": "blue_concrete_powder",
+            "default": "252:11",
+            "modifiers": []
+        },
+        {
+            "base": "brown_concrete_powder",
+            "default": "252:12",
+            "modifiers": []
+        },
+        {
+            "base": "green_concrete_powder",
+            "default": "252:13",
+            "modifiers": []
+        },
+        {
+            "base": "red_concrete_powder",
+            "default": "252:14",
+            "modifiers": []
+        },
+        {
+            "base": "black_concrete_powder",
+            "default": "252:15",
+            "modifiers": []
+        },
+        {
+            "base": "crafting_table",
+            "default": "58:0",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_glazed_terracotta",
+            "default": "244:0",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_shulker_box",
+            "default": "228:0",
+            "modifiers": []
+        },
+        {
+            "base": "dark_oak_door",
+            "default": "431:0",
+            "modifiers": []
+        },
+        {
+            "base": "dark_oak_fence",
+            "default": "191:0",
+            "modifiers": []
+        },
+        {
+            "base": "dark_oak_fence_gate",
+            "default": "186:0",
+            "modifiers": []
+        },
+        {
+            "base": "dark_oak_stairs",
+            "default": "164:0",
+            "modifiers": []
+        },
+        {
+            "base": "daylight_detector",
+            "default": "151:0",
+            "modifiers": []
+        },
+        {
+            "base": "dead_bush",
+            "default": "32:0",
+            "modifiers": []
+        },
+        {
+            "base": "diamond_ore",
+            "default": "56:0",
+            "modifiers": []
+        },
+        {
+            "base": "dirt",
+            "default": "3:0",
+            "modifiers": []
+        },
+        {
+            "base": "coarse_dirt",
+            "default": "3:1",
+            "modifiers": []
+        },
+        {
+            "base": "podzol",
+            "default": "3:2",
+            "modifiers": []
+        },
+        {
+            "base": "dispenser",
+            "default": "23:0",
+            "modifiers": []
+        },
+        {
+            "base": "sunflower",
+            "default": "175:0",
+            "modifiers": []
+        },
+        {
+            "base": "lilac",
+            "default": "175:1",
+            "modifiers": []
+        },
+        {
+            "base": "tall_grass",
+            "default": "175:2",
+            "modifiers": []
+        },
+        {
+            "base": "large_fern",
+            "default": "175:3",
+            "modifiers": []
+        },
+        {
+            "base": "rose_bush",
+            "default": "175:4",
+            "modifiers": []
+        },
+        {
+            "base": "peony",
+            "default": "175:5",
+            "modifiers": []
+        },
+        {
+            "base": "dragon_egg",
+            "default": "122:0",
+            "modifiers": []
+        },
+        {
+            "base": "dropper",
+            "default": "158:0",
+            "modifiers": []
+        },
+        {
+            "base": "emerald_ore",
+            "default": "129:0",
+            "modifiers": []
+        },
+        {
+            "base": "enchanting_table",
+            "default": "116:0",
+            "modifiers": []
+        },
+        {
+            "base": "end_stone_bricks",
+            "default": "206:0",
+            "modifiers": []
+        },
+        {
+            "base": "end_portal_frame",
+            "default": "120:0",
+            "modifiers": []
+        },
+        {
+            "base": "end_rod",
+            "default": "198:0",
+            "modifiers": []
+        },
+        {
+            "base": "end_stone",
+            "default": "121:0",
+            "modifiers": []
+        },
+        {
+            "base": "ender_chest",
+            "default": "130:0",
+            "modifiers": []
+        },
+        {
+            "base": "farmland",
+            "default": "60:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_fence",
+            "default": "85:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_fence_gate",
+            "default": "107:0",
+            "modifiers": []
+        },
+        {
+            "base": "flower_pot",
+            "default": "390:0",
+            "modifiers": []
+        },
+        {
+            "base": "furnace",
+            "default": "61:0",
+            "modifiers": []
+        },
+        {
+            "base": "glass",
+            "default": "20:0",
+            "modifiers": []
+        },
+        {
+            "base": "glass_pane",
+            "default": "102:0",
+            "modifiers": []
+        },
+        {
+            "base": "glowstone",
+            "default": "89:0",
+            "modifiers": []
+        },
+        {
+            "base": "gold_block",
+            "default": "41:0",
+            "modifiers": []
+        },
+        {
+            "base": "gold_ore",
+            "default": "14:0",
+            "modifiers": []
+        },
+        {
+            "base": "grass_block",
+            "default": "2:0",
+            "modifiers": []
+        },
+        {
+            "base": "dirt_path",
+            "default": "208:0",
+            "modifiers": []
+        },
+        {
+            "base": "gravel",
+            "default": "13:0",
+            "modifiers": []
+        },
+        {
+            "base": "gray_glazed_terracotta",
+            "default": "242:0",
+            "modifiers": []
+        },
+        {
+            "base": "gray_shulker_box",
+            "default": "226:0",
+            "modifiers": []
+        },
+        {
+            "base": "green_glazed_terracotta",
+            "default": "248:0",
+            "modifiers": []
+        },
+        {
+            "base": "green_shulker_box",
+            "default": "232:0",
+            "modifiers": []
+        },
+        {
+            "base": "terracotta",
+            "default": "172:0",
+            "modifiers": []
+        },
+        {
+            "base": "hay_block",
+            "default": "170:0",
+            "modifiers": []
+        },
+        {
+            "base": "heavy_weighted_pressure_plate",
+            "default": "148:0",
+            "modifiers": []
+        },
+        {
+            "base": "hopper",
+            "default": "154:0",
+            "modifiers": []
+        },
+        {
+            "base": "ice",
+            "default": "79:0",
+            "modifiers": []
+        },
+        {
+            "base": "iron_bars",
+            "default": "101:0",
+            "modifiers": []
+        },
+        {
+            "base": "iron_block",
+            "default": "42:0",
+            "modifiers": []
+        },
+        {
+            "base": "iron_door",
+            "default": "330:0",
+            "modifiers": []
+        },
+        {
+            "base": "iron_ore",
+            "default": "15:0",
+            "modifiers": []
+        },
+        {
+            "base": "iron_trapdoor",
+            "default": "167:0",
+            "modifiers": []
+        },
+        {
+            "base": "jukebox",
+            "default": "84:0",
+            "modifiers": []
+        },
+        {
+            "base": "jungle_door",
+            "default": "429:0",
+            "modifiers": []
+        },
+        {
+            "base": "jungle_fence",
+            "default": "190:0",
+            "modifiers": []
+        },
+        {
+            "base": "jungle_fence_gate",
+            "default": "185:0",
+            "modifiers": []
+        },
+        {
+            "base": "jungle_stairs",
+            "default": "136:0",
+            "modifiers": []
+        },
+        {
+            "base": "ladder",
+            "default": "65:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_leaves",
+            "default": "18:0",
+            "modifiers": []
+        },
+        {
+            "base": "spruce_leaves",
+            "default": "18:1",
+            "modifiers": []
+        },
+        {
+            "base": "birch_leaves",
+            "default": "18:2",
+            "modifiers": []
+        },
+        {
+            "base": "jungle_leaves",
+            "default": "18:3",
+            "modifiers": []
+        },
+        {
+            "base": "acacia_leaves",
+            "default": "161:0",
+            "modifiers": []
+        },
+        {
+            "base": "dark_oak_leaves",
+            "default": "161:1",
+            "modifiers": []
+        },
+        {
+            "base": "lever",
+            "default": "69:0",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_glazed_terracotta",
+            "default": "238:0",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_shulker_box",
+            "default": "222:0",
+            "modifiers": []
+        },
+        {
+            "base": "light_weighted_pressure_plate",
+            "default": "147:0",
+            "modifiers": []
+        },
+        {
+            "base": "lime_glazed_terracotta",
+            "default": "240:0",
+            "modifiers": []
+        },
+        {
+            "base": "lime_shulker_box",
+            "default": "224:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_log",
+            "default": "17:0",
+            "modifiers": []
+        },
+        {
+            "base": "spruce_log",
+            "default": "17:1",
+            "modifiers": []
+        },
+        {
+            "base": "birch_log",
+            "default": "17:2",
+            "modifiers": []
+        },
+        {
+            "base": "jungle_log",
+            "default": "17:3",
+            "modifiers": []
+        },
+        {
+            "base": "acacia_log",
+            "default": "162:0",
+            "modifiers": []
+        },
+        {
+            "base": "dark_oak_log",
+            "default": "162:1",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_glazed_terracotta",
+            "default": "237:0",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_shulker_box",
+            "default": "221:0",
+            "modifiers": []
+        },
+        {
+            "base": "magma_block",
+            "default": "213:0",
+            "modifiers": []
+        },
+        {
+            "base": "infested_stone",
+            "default": "97:0",
+            "modifiers": []
+        },
+        {
+            "base": "infested_cobblestone",
+            "default": "97:1",
+            "modifiers": []
+        },
+        {
+            "base": "infested_stone_bricks",
+            "default": "97:2",
+            "modifiers": []
+        },
+        {
+            "base": "infested_mossy_stone_bricks",
+            "default": "97:3",
+            "modifiers": []
+        },
+        {
+            "base": "infested_cracked_stone_bricks",
+            "default": "97:4",
+            "modifiers": []
+        },
+        {
+            "base": "infested_chiseled_stone_bricks",
+            "default": "97:5",
+            "modifiers": []
+        },
+        {
+            "base": "mossy_cobblestone",
+            "default": "48:0",
+            "modifiers": []
+        },
+        {
+            "base": "mycelium",
+            "default": "110:0",
+            "modifiers": []
+        },
+        {
+            "base": "nether_brick_fence",
+            "default": "113:0",
+            "modifiers": []
+        },
+        {
+            "base": "nether_brick_stairs",
+            "default": "114:0",
+            "modifiers": []
+        },
+        {
+            "base": "nether_wart",
+            "default": "372:0",
+            "modifiers": []
+        },
+        {
+            "base": "nether_wart_block",
+            "default": "214:0",
+            "modifiers": []
+        },
+        {
+            "base": "netherrack",
+            "default": "87:0",
+            "modifiers": []
+        },
+        {
+            "base": "note_block",
+            "default": "25:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_stairs",
+            "default": "53:0",
+            "modifiers": []
+        },
+        {
+            "base": "observer",
+            "default": "218:0",
+            "modifiers": []
+        },
+        {
+            "base": "obsidian",
+            "default": "49:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_glazed_terracotta",
+            "default": "236:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_shulker_box",
+            "default": "220:0",
+            "modifiers": []
+        },
+        {
+            "base": "packed_ice",
+            "default": "174:0",
+            "modifiers": []
+        },
+        {
+            "base": "pink_glazed_terracotta",
+            "default": "241:0",
+            "modifiers": []
+        },
+        {
+            "base": "pink_shulker_box",
+            "default": "225:0",
+            "modifiers": []
+        },
+        {
+            "base": "piston",
+            "default": "33:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_planks",
+            "default": "5:0",
+            "modifiers": []
+        },
+        {
+            "base": "spruce_planks",
+            "default": "5:1",
+            "modifiers": []
+        },
+        {
+            "base": "birch_planks",
+            "default": "5:2",
+            "modifiers": []
+        },
+        {
+            "base": "jungle_planks",
+            "default": "5:3",
+            "modifiers": []
+        },
+        {
+            "base": "acacia_planks",
+            "default": "5:4",
+            "modifiers": []
+        },
+        {
+            "base": "dark_oak_planks",
+            "default": "5:5",
+            "modifiers": []
+        },
+        {
+            "base": "prismarine",
+            "default": "168:0",
+            "modifiers": []
+        },
+        {
+            "base": "prismarine_bricks",
+            "default": "168:1",
+            "modifiers": []
+        },
+        {
+            "base": "dark_prismarine",
+            "default": "168:2",
+            "modifiers": []
+        },
+        {
+            "base": "pumpkin",
+            "default": "86:0",
+            "modifiers": []
+        },
+        {
+            "base": "purple_glazed_terracotta",
+            "default": "245:0",
+            "modifiers": []
+        },
+        {
+            "base": "purple_shulker_box",
+            "default": "229:0",
+            "modifiers": []
+        },
+        {
+            "base": "purpur_block",
+            "default": "201:0",
+            "modifiers": []
+        },
+        {
+            "base": "purpur_pillar",
+            "default": "202:0",
+            "modifiers": []
+        },
+        {
+            "base": "purpur_slab",
+            "default": "205:0",
+            "modifiers": []
+        },
+        {
+            "base": "purpur_stairs",
+            "default": "203:0",
+            "modifiers": []
+        },
+        {
+            "base": "quartz_block",
+            "default": "155:0",
+            "modifiers": []
+        },
+        {
+            "base": "chiseled_quartz_block",
+            "default": "155:1",
+            "modifiers": []
+        },
+        {
+            "base": "quartz_pillar",
+            "default": "155:2",
+            "modifiers": []
+        },
+        {
+            "base": "nether_quartz_ore",
+            "default": "153:0",
+            "modifiers": []
+        },
+        {
+            "base": "quartz_stairs",
+            "default": "156:0",
+            "modifiers": []
+        },
+        {
+            "base": "poppy",
+            "default": "38:0",
+            "modifiers": []
+        },
+        {
+            "base": "blue_orchid",
+            "default": "38:1",
+            "modifiers": []
+        },
+        {
+            "base": "allium",
+            "default": "38:2",
+            "modifiers": []
+        },
+        {
+            "base": "azure_bluet",
+            "default": "38:3",
+            "modifiers": []
+        },
+        {
+            "base": "red_tulip",
+            "default": "38:4",
+            "modifiers": []
+        },
+        {
+            "base": "orange_tulip",
+            "default": "38:5",
+            "modifiers": []
+        },
+        {
+            "base": "white_tulip",
+            "default": "38:6",
+            "modifiers": []
+        },
+        {
+            "base": "pink_tulip",
+            "default": "38:7",
+            "modifiers": []
+        },
+        {
+            "base": "oxeye_daisy",
+            "default": "38:8",
+            "modifiers": []
+        },
+        {
+            "base": "red_glazed_terracotta",
+            "default": "249:0",
+            "modifiers": []
+        },
+        {
+            "base": "red_mushroom",
+            "default": "40:0",
+            "modifiers": []
+        },
+        {
+            "base": "red_mushroom_block",
+            "default": "100:0",
+            "modifiers": []
+        },
+        {
+            "base": "red_sandstone",
+            "default": "179:0",
+            "modifiers": []
+        },
+        {
+            "base": "chiseled_red_sandstone",
+            "default": "179:1",
+            "modifiers": []
+        },
+        {
+            "base": "smooth_red_sandstone",
+            "default": "179:2",
+            "modifiers": []
+        },
+        {
+            "base": "red_sandstone_stairs",
+            "default": "180:0",
+            "modifiers": []
+        },
+        {
+            "base": "red_shulker_box",
+            "default": "233:0",
+            "modifiers": []
+        },
+        {
+            "base": "redstone_block",
+            "default": "152:0",
+            "modifiers": []
+        },
+        {
+            "base": "redstone_lamp",
+            "default": "123:0",
+            "modifiers": []
+        },
+        {
+            "base": "redstone_ore",
+            "default": "73:0",
+            "modifiers": []
+        },
+        {
+            "base": "redstone_torch",
+            "default": "76:0",
+            "modifiers": []
+        },
+        {
+            "base": "repeating_command_block",
+            "default": "210:0",
+            "modifiers": []
+        },
+        {
+            "base": "sand",
+            "default": "12:0",
+            "modifiers": []
+        },
+        {
+            "base": "red_sand",
+            "default": "12:1",
+            "modifiers": []
+        },
+        {
+            "base": "sandstone",
+            "default": "24:0",
+            "modifiers": []
+        },
+        {
+            "base": "chiseled_sandstone",
+            "default": "24:1",
+            "modifiers": []
+        },
+        {
+            "base": "smooth_sandstone",
+            "default": "24:2",
+            "modifiers": []
+        },
+        {
+            "base": "sandstone_stairs",
+            "default": "128:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_sapling",
+            "default": "6:0",
+            "modifiers": []
+        },
+        {
+            "base": "spruce_sapling",
+            "default": "6:1",
+            "modifiers": []
+        },
+        {
+            "base": "birch_sapling",
+            "default": "6:2",
+            "modifiers": []
+        },
+        {
+            "base": "jungle_sapling",
+            "default": "6:3",
+            "modifiers": []
+        },
+        {
+            "base": "acacia_sapling",
+            "default": "6:4",
+            "modifiers": []
+        },
+        {
+            "base": "dark_oak_sapling",
+            "default": "6:5",
+            "modifiers": []
+        },
+        {
+            "base": "sea_lantern",
+            "default": "169:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_sign",
+            "default": "323:0",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_glazed_terracotta",
+            "default": "243:0",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_shulker_box",
+            "default": "227:0",
+            "modifiers": []
+        },
+        {
+            "base": "skeleton_skull",
+            "default": "397:0",
+            "modifiers": []
+        },
+        {
+            "base": "wither_skeleton_skull",
+            "default": "397:1",
+            "modifiers": []
+        },
+        {
+            "base": "zombie_head",
+            "default": "397:2",
+            "modifiers": []
+        },
+        {
+            "base": "player_head",
+            "default": "397:3",
+            "modifiers": []
+        },
+        {
+            "base": "creeper_head",
+            "default": "397:4",
+            "modifiers": []
+        },
+        {
+            "base": "dragon_head",
+            "default": "397:5",
+            "modifiers": []
+        },
+        {
+            "base": "slime_block",
+            "default": "165:0",
+            "modifiers": []
+        },
+        {
+            "base": "snow_block",
+            "default": "80:0",
+            "modifiers": []
+        },
+        {
+            "base": "snow",
+            "default": "78:0",
+            "modifiers": []
+        },
+        {
+            "base": "soul_sand",
+            "default": "88:0",
+            "modifiers": []
+        },
+        {
+            "base": "sponge",
+            "default": "19:0",
+            "modifiers": []
+        },
+        {
+            "base": "wet_sponge",
+            "default": "19:1",
+            "modifiers": []
+        },
+        {
+            "base": "spruce_door",
+            "default": "427:0",
+            "modifiers": []
+        },
+        {
+            "base": "spruce_fence",
+            "default": "188:0",
+            "modifiers": []
+        },
+        {
+            "base": "spruce_fence_gate",
+            "default": "183:0",
+            "modifiers": []
+        },
+        {
+            "base": "spruce_stairs",
+            "default": "134:0",
+            "modifiers": []
+        },
+        {
+            "base": "white_stained_glass",
+            "default": "95:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_stained_glass",
+            "default": "95:1",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_stained_glass",
+            "default": "95:2",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_stained_glass",
+            "default": "95:3",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_stained_glass",
+            "default": "95:4",
+            "modifiers": []
+        },
+        {
+            "base": "lime_stained_glass",
+            "default": "95:5",
+            "modifiers": []
+        },
+        {
+            "base": "pink_stained_glass",
+            "default": "95:6",
+            "modifiers": []
+        },
+        {
+            "base": "gray_stained_glass",
+            "default": "95:7",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_stained_glass",
+            "default": "95:8",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_stained_glass",
+            "default": "95:9",
+            "modifiers": []
+        },
+        {
+            "base": "purple_stained_glass",
+            "default": "95:10",
+            "modifiers": []
+        },
+        {
+            "base": "blue_stained_glass",
+            "default": "95:11",
+            "modifiers": []
+        },
+        {
+            "base": "brown_stained_glass",
+            "default": "95:12",
+            "modifiers": []
+        },
+        {
+            "base": "green_stained_glass",
+            "default": "95:13",
+            "modifiers": []
+        },
+        {
+            "base": "red_stained_glass",
+            "default": "95:14",
+            "modifiers": []
+        },
+        {
+            "base": "black_stained_glass",
+            "default": "95:15",
+            "modifiers": []
+        },
+        {
+            "base": "white_stained_glass_pane",
+            "default": "160:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_stained_glass_pane",
+            "default": "160:1",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_stained_glass_pane",
+            "default": "160:2",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_stained_glass_pane",
+            "default": "160:3",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_stained_glass_pane",
+            "default": "160:4",
+            "modifiers": []
+        },
+        {
+            "base": "lime_stained_glass_pane",
+            "default": "160:5",
+            "modifiers": []
+        },
+        {
+            "base": "pink_stained_glass_pane",
+            "default": "160:6",
+            "modifiers": []
+        },
+        {
+            "base": "gray_stained_glass_pane",
+            "default": "160:7",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_stained_glass_pane",
+            "default": "160:8",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_stained_glass_pane",
+            "default": "160:9",
+            "modifiers": []
+        },
+        {
+            "base": "purple_stained_glass_pane",
+            "default": "160:10",
+            "modifiers": []
+        },
+        {
+            "base": "blue_stained_glass_pane",
+            "default": "160:11",
+            "modifiers": []
+        },
+        {
+            "base": "brown_stained_glass_pane",
+            "default": "160:12",
+            "modifiers": []
+        },
+        {
+            "base": "green_stained_glass_pane",
+            "default": "160:13",
+            "modifiers": []
+        },
+        {
+            "base": "red_stained_glass_pane",
+            "default": "160:14",
+            "modifiers": []
+        },
+        {
+            "base": "black_stained_glass_pane",
+            "default": "160:15",
+            "modifiers": []
+        },
+        {
+            "base": "white_terracotta",
+            "default": "159:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_terracotta",
+            "default": "159:1",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_terracotta",
+            "default": "159:2",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_terracotta",
+            "default": "159:3",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_terracotta",
+            "default": "159:4",
+            "modifiers": []
+        },
+        {
+            "base": "lime_terracotta",
+            "default": "159:5",
+            "modifiers": []
+        },
+        {
+            "base": "pink_terracotta",
+            "default": "159:6",
+            "modifiers": []
+        },
+        {
+            "base": "gray_terracotta",
+            "default": "159:7",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_terracotta",
+            "default": "159:8",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_terracotta",
+            "default": "159:9",
+            "modifiers": []
+        },
+        {
+            "base": "purple_terracotta",
+            "default": "159:10",
+            "modifiers": []
+        },
+        {
+            "base": "blue_terracotta",
+            "default": "159:11",
+            "modifiers": []
+        },
+        {
+            "base": "brown_terracotta",
+            "default": "159:12",
+            "modifiers": []
+        },
+        {
+            "base": "green_terracotta",
+            "default": "159:13",
+            "modifiers": []
+        },
+        {
+            "base": "red_terracotta",
+            "default": "159:14",
+            "modifiers": []
+        },
+        {
+            "base": "black_terracotta",
+            "default": "159:15",
+            "modifiers": []
+        },
+        {
+            "base": "sticky_piston",
+            "default": "29:0",
+            "modifiers": []
+        },
+        {
+            "base": "stone",
+            "default": "1:0",
+            "modifiers": []
+        },
+        {
+            "base": "granite",
+            "default": "1:1",
+            "modifiers": []
+        },
+        {
+            "base": "polished_granite",
+            "default": "1:2",
+            "modifiers": []
+        },
+        {
+            "base": "diorite",
+            "default": "1:3",
+            "modifiers": []
+        },
+        {
+            "base": "polished_diorite",
+            "default": "1:4",
+            "modifiers": []
+        },
+        {
+            "base": "andesite",
+            "default": "1:5",
+            "modifiers": []
+        },
+        {
+            "base": "polished_andesite",
+            "default": "1:6",
+            "modifiers": []
+        },
+        {
+            "base": "stone_brick_stairs",
+            "default": "109:0",
+            "modifiers": []
+        },
+        {
+            "base": "stone_button",
+            "default": "77:0",
+            "modifiers": []
+        },
+        {
+            "base": "stone_pressure_plate",
+            "default": "70:0",
+            "modifiers": []
+        },
+        {
+            "base": "stone_slab",
+            "default": "44:0",
+            "modifiers": []
+        },
+        {
+            "base": "sandstone_slab",
+            "default": "44:1",
+            "modifiers": []
+        },
+        {
+            "base": "cobblestone_slab",
+            "default": "44:3",
+            "modifiers": []
+        },
+        {
+            "base": "brick_slab",
+            "default": "44:4",
+            "modifiers": []
+        },
+        {
+            "base": "stone_brick_slab",
+            "default": "44:5",
+            "modifiers": []
+        },
+        {
+            "base": "nether_brick_slab",
+            "default": "44:6",
+            "modifiers": []
+        },
+        {
+            "base": "quartz_slab",
+            "default": "44:7",
+            "modifiers": []
+        },
+        {
+            "base": "red_sandstone_slab",
+            "default": "182:0",
+            "modifiers": []
+        },
+        {
+            "base": "cobblestone_stairs",
+            "default": "67:0",
+            "modifiers": []
+        },
+        {
+            "base": "stone_bricks",
+            "default": "98:0",
+            "modifiers": []
+        },
+        {
+            "base": "mossy_stone_bricks",
+            "default": "98:1",
+            "modifiers": []
+        },
+        {
+            "base": "cracked_stone_bricks",
+            "default": "98:2",
+            "modifiers": []
+        },
+        {
+            "base": "chiseled_stone_bricks",
+            "default": "98:3",
+            "modifiers": []
+        },
+        {
+            "base": "structure_block",
+            "default": "255:0",
+            "modifiers": []
+        },
+        {
+            "base": "structure_void",
+            "default": "217:0",
+            "modifiers": []
+        },
+        {
+            "base": "grass",
+            "default": "31:1",
+            "modifiers": []
+        },
+        {
+            "base": "fern",
+            "default": "31:2",
+            "modifiers": []
+        },
+        {
+            "base": "tnt",
+            "default": "46:0",
+            "modifiers": []
+        },
+        {
+            "base": "torch",
+            "default": "50:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_trapdoor",
+            "default": "96:0",
+            "modifiers": []
+        },
+        {
+            "base": "trapped_chest",
+            "default": "146:0",
+            "modifiers": []
+        },
+        {
+            "base": "tripwire_hook",
+            "default": "131:0",
+            "modifiers": []
+        },
+        {
+            "base": "lily_pad",
+            "default": "111:0",
+            "modifiers": []
+        },
+        {
+            "base": "cobweb",
+            "default": "30:0",
+            "modifiers": []
+        },
+        {
+            "base": "wheat",
+            "default": "296:0",
+            "modifiers": []
+        },
+        {
+            "base": "white_glazed_terracotta",
+            "default": "235:0",
+            "modifiers": []
+        },
+        {
+            "base": "white_shulker_box",
+            "default": "219:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_button",
+            "default": "143:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_door",
+            "default": "324:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_pressure_plate",
+            "default": "72:0",
+            "modifiers": []
+        },
+        {
+            "base": "oak_slab",
+            "default": "126:0",
+            "modifiers": []
+        },
+        {
+            "base": "spruce_slab",
+            "default": "126:1",
+            "modifiers": []
+        },
+        {
+            "base": "birch_slab",
+            "default": "126:2",
+            "modifiers": []
+        },
+        {
+            "base": "jungle_slab",
+            "default": "126:3",
+            "modifiers": []
+        },
+        {
+            "base": "acacia_slab",
+            "default": "126:4",
+            "modifiers": []
+        },
+        {
+            "base": "dark_oak_slab",
+            "default": "126:5",
+            "modifiers": []
+        },
+        {
+            "base": "white_wool",
+            "default": "35:0",
+            "modifiers": []
+        },
+        {
+            "base": "orange_wool",
+            "default": "35:1",
+            "modifiers": []
+        },
+        {
+            "base": "magenta_wool",
+            "default": "35:2",
+            "modifiers": []
+        },
+        {
+            "base": "light_blue_wool",
+            "default": "35:3",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_wool",
+            "default": "35:4",
+            "modifiers": []
+        },
+        {
+            "base": "lime_wool",
+            "default": "35:5",
+            "modifiers": []
+        },
+        {
+            "base": "pink_wool",
+            "default": "35:6",
+            "modifiers": []
+        },
+        {
+            "base": "gray_wool",
+            "default": "35:7",
+            "modifiers": []
+        },
+        {
+            "base": "light_gray_wool",
+            "default": "35:8",
+            "modifiers": []
+        },
+        {
+            "base": "cyan_wool",
+            "default": "35:9",
+            "modifiers": []
+        },
+        {
+            "base": "purple_wool",
+            "default": "35:10",
+            "modifiers": []
+        },
+        {
+            "base": "blue_wool",
+            "default": "35:11",
+            "modifiers": []
+        },
+        {
+            "base": "brown_wool",
+            "default": "35:12",
+            "modifiers": []
+        },
+        {
+            "base": "green_wool",
+            "default": "35:13",
+            "modifiers": []
+        },
+        {
+            "base": "red_wool",
+            "default": "35:14",
+            "modifiers": []
+        },
+        {
+            "base": "black_wool",
+            "default": "35:15",
+            "modifiers": []
+        },
+        {
+            "base": "dandelion",
+            "default": "37:0",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_glazed_terracotta",
+            "default": "239:0",
+            "modifiers": []
+        },
+        {
+            "base": "yellow_shulker_box",
+            "default": "223:0",
+            "modifiers": []
+        }
+    ]
+}

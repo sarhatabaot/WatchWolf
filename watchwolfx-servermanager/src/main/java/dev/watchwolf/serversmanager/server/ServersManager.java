@@ -1,0 +1,113 @@
+package dev.watchwolf.serversmanager.server;
+
+import dev.watchwolf.core.entities.WorldType;
+import dev.watchwolf.core.entities.files.ConfigFile;
+import dev.watchwolf.core.entities.files.plugins.Plugin;
+import dev.watchwolf.serversmanager.server.instantiator.Server;
+import dev.watchwolf.serversmanager.server.instantiator.ServerInstantiator;
+import dev.watchwolf.serversmanager.server.instantiator.ThrowableServer;
+import dev.watchwolf.serversmanager.server.ip.ExternalizeIpManager;
+import dev.watchwolf.serversmanager.server.ip.IpManager;
+import dev.watchwolf.serversmanager.server.ip.ReachedAddressIpManager;
+import dev.watchwolf.serversmanager.server.runtime.LegacyRuntimeProvider;
+import dev.watchwolf.serversmanager.server.runtime.MinecraftRuntimeProvider;
+
+import java.io.Closeable;
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+public class ServersManager implements Closeable {
+    public static final String TARGET_SERVER_JAR = "server.jar";
+    private static Path LOGS_FOLDER_BASE = Paths.get(((System.getenv("SERVER_PATH_SHIFT") == null) ? "." : System.getenv("SERVER_PATH_SHIFT")) + "/logs");
+
+    private final MinecraftRuntimeProvider runtimeProvider;
+    private final IpManager ipManager;
+
+    public ServersManager(ServerInstantiator serverInstantiator) {
+        this(new LegacyRuntimeProvider(serverInstantiator));
+    }
+
+    public ServersManager(MinecraftRuntimeProvider runtimeProvider) {
+        this.runtimeProvider = runtimeProvider;
+        // prefer the address the requester actually reached us on; MACHINE_IP/PUBLIC_IP is the guess
+        // we fall back to when ours aren't the host's addresses (see ReachedAddressIpManager)
+        this.ipManager = new ReachedAddressIpManager(new ExternalizeIpManager(System.getenv("MACHINE_IP"), System.getenv("PUBLIC_IP")));
+    }
+
+    @Override
+    public void close() {
+        this.runtimeProvider.close();
+    }
+
+    /**
+     * Starts a server given the required parameters
+     * @param serverType
+     * @param serverVersion
+     * @param plugins
+     * @param worldType
+     * @param seed MC server seed; Empty if random
+     * @param maps
+     * @param configFiles
+     * @param serverRequestee IP&Port WW-Tester is using
+     * @return Created server IP&port
+     */
+    public ThrowableServer startServer(final String serverType, final String serverVersion, Collection<Plugin> plugins, WorldType worldType, String seed, Collection<ConfigFile> maps, Collection<ConfigFile> configFiles, InetSocketAddress serverRequestee) throws IOException,ServerJarUnavailableException {
+        final MinecraftRuntimeProvider.StartedServer started = runtimeProvider.startServer(
+                serverType, serverVersion, plugins, worldType, seed, maps, configFiles);
+        final String path = started.folder();
+        final Date serverCreatedAt = new Date();
+
+        final Server server = started.server();
+        String reportedIp = server.getIp();
+        server.setIp(this.ipManager.getIp(reportedIp, serverRequestee));
+        System.out.println("Server " + serverType + " " + serverVersion + " is up on " + reportedIp
+                + "; answering " + serverRequestee + " with " + server.getIp());
+
+        // keep the logs
+        String serverUUID = ServerRequirements.getHashFromServerPath(path);
+        Path outLogsFolder = LOGS_FOLDER_BASE.resolve(serverUUID);
+        try {
+            Files.createDirectories(outLogsFolder);
+
+            Map<String,String> info = new HashMap<>();
+            info.put("serverType", serverType);
+            info.put("serverVersion", serverVersion);
+            info.put("uuid", serverUUID);
+            info.put("createdAt", new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(serverCreatedAt));
+            info.put("ip", server.getIp());
+            for (Map.Entry<String,String> e : info.entrySet()) Files.writeString(outLogsFolder.resolve("info.txt"), e.getKey() + " = " + e.getValue() + "\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+
+            // we won't subscribe if we can't create the info file
+            final Path logsFile = outLogsFolder.resolve("latest.log");
+            server.subscribeToServerMessageEvents((msg) -> {
+                try {
+                    Files.writeString(logsFile, msg + "\n", StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                } catch (IOException ignore) {}
+            });
+        } catch (Exception ex) {
+            System.err.println("Failed to copy logs info file: " + ex.toString());
+        }
+
+        // we need to perform some cleanup if the server stops
+        server.subscribeToServerStoppedEvents(() -> {
+            // and clear the folder
+            System.out.println("Server stopped; clearing folder...");
+            try {
+                ServerRequirements.clearFolder(path);
+            } catch (IOException ex) {
+                System.err.println(ex.toString());
+            }
+        });
+
+        return new ThrowableServer(server);
+    }
+}
