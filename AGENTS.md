@@ -49,11 +49,9 @@ Docker socket into Minecraft containers.
 
 ## Builds and tests
 
-The imported projects intentionally retain their established build systems during the first
-monorepo migration step:
+The Java projects use their checked-in Gradle wrappers:
 
-- Core: Maven through `watchwolfx-core/ci/*.sh`.
-- Server, ServerManager and Tester: their checked-in Gradle wrappers.
+- Core, Server, ServerManager and Tester: their checked-in Gradle wrappers.
 - ClientsManager: Docker image plus `watchwolfx-clientsmanager/ci/tests.sh`.
 - Docs/API: tools under `watchwolfx-docs/`.
 

@@ -1,0 +1,13 @@
+title: WatchWolfX documentation
+description: Runtime, protocol, migration, and contributor documentation for WatchWolfX
+url: http://sarhatabaot.net
+baseurl: /WatchWolfX
+theme: minima
+markdown: kramdown
+
+exclude:
+  - Diagram.mdj
+  - api-docs.Dockerfile
+  - api-docs-requirements.txt
+  - api-docs.py
+  - node

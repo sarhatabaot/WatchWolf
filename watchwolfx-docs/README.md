@@ -3,6 +3,9 @@
 This module owns the WatchWolfX website/documentation sources, protocol specification and API
 documentation tooling.
 
+The documentation is deployed to <http://sarhatabaot.net/WatchWolfX/> by
+`.github/workflows/docs-pages.yml` after changes reach `main`. `index.md` is the Pages entry point.
+
 - [`API/API.tex`](API/API.tex) is the protocol source of truth; [`API/API.pdf`](API/API.pdf) is its
   checked-in rendered form.
 - [`API/definitions`](API/definitions/) contains machine-readable protocol definitions and

@@ -2,7 +2,7 @@ rootProject.name = "watchwolf-example-plugin"
 
 val watchWolfXReleaseRepository = providers
     .environmentVariable("WATCHWOLFX_RELEASE_REPOSITORY")
-    .orElse("sarhatabaot/WatchWolf")
+    .orElse("sarhatabaot/WatchWolfX")
     .get()
 
 dependencyResolutionManagement {

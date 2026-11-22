@@ -5,9 +5,8 @@ plugins {
 }
 
 group = "dev.watchwolfx"
-version = "0.5.1"
+version = "0.5.2"
 
-val coreVersion = "0.5.1"
 val githubRepository = providers.environmentVariable("GITHUB_REPOSITORY")
     .orElse("sarhatabaot/WatchWolfX")
 
@@ -15,7 +14,7 @@ dependencies {
     compileOnly("org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT")
     compileOnly("org.apache.logging.log4j:log4j-core:2.17.1")
 
-    implementation(files("lib/watchwolfx-core-$coreVersion.jar"))
+    implementation(fileTree("lib") { include("watchwolfx-core-*.jar") })
     implementation("com.github.cryptomorin:XSeries:9.9.0")
 }
 

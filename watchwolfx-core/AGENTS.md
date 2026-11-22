@@ -5,7 +5,7 @@ runtime that carries them over a socket, and the code generator that turns the
 [API definitions](https://github.com/watch-wolf/WatchWolf/tree/main/API/definitions) into Java
 stubs.
 
-`dev.watchwolfx:watchwolfx-core:0.5.0` · **Java 8** · Maven · published to the WatchWolfX
+`dev.watchwolfx:watchwolfx-core:0.5.2` · **Java 8 bytecode** · Gradle · published to the WatchWolfX
 GitHub Packages repository. Java packages remain under `dev.watchwolf` for compatibility.
 
 It is consumed by WatchWolf-ServersManager (and eventually by the other modules — see
@@ -39,12 +39,13 @@ src/integration-test/java/  integration tests     (IT*.java)
 
 ## Build, test, generate
 
-Everything runs inside Docker so the host needs no JDK/Maven.
+The checked-in Gradle wrapper is authoritative. The convenience scripts run Gradle in Docker, so
+the host needs no JDK.
 
 ```bash
-./ci/build.sh [--preclean]        # mvn compile assembly:single -> target/watchwolfx-core-<v>.jar
-./ci/tests.sh --unit              # surefire; reports in target/surefire-reports + target/site
-./ci/tests.sh --integration       # failsafe;  reports in target/failsafe-reports + target/site
+./ci/build.sh [--preclean]        # shadowJar -> build/libs/watchwolfx-core-<v>.jar
+./ci/tests.sh --unit              # Gradle test; reports in build/reports/tests/test
+./ci/tests.sh --integration       # integrationTest; reports in build/reports/tests/integrationTest
 ./ci/tests.sh --unit --tests 'VersionShould'   # filter
 ./ci/validator.sh                 # test-naming lint; run before opening a PR
 ./ci/rpc-gen.sh                   # regenerate the RPC stubs (see below)
@@ -59,13 +60,14 @@ The produced jar is a `jar-with-dependencies` with `appendAssemblyId=false`, so 
   tests are `IT*.java` under `src/integration-test/java` **and must carry `@Timeout` on the line
   immediately before `public class`** (`ci/validator.sh` greps for exactly that). A misnamed file
   silently never runs.
-- **Maven profiles.** `default` runs unit tests only; `-P integration-test` runs integration
-  tests only. `src/integration-test/java` and `src/scripts/java` are attached as extra source
-  roots by `build-helper-maven-plugin`.
+- **Gradle source sets.** `test` runs unit tests and `integrationTest` runs integration tests.
+  `src/integration-test/java` is a dedicated test source set; `src/scripts/java` is attached to
+  `main` so the RPC generator can run through `generateRpcStubs`.
 - **Logging is log4j2**, with `logger.traceEntry(...)` / `logger.traceExit(...)` at method
   boundaries and `CloseableThreadContext` around long-lived loops. Match that when adding code to
   `core/rpc`.
-- Bump `<version>` in `pom.xml` when the jar changes; downstream `pom.xml`s pin it exactly.
+- Bump `version` in `build.gradle.kts` when the jar changes. Docker and release builds discover
+  the resulting Core jar from that version instead of pinning its filename separately.
 
 ## Generated code — do not hand-edit
 
