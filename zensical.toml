@@ -45,6 +45,7 @@ nav = [
   ] },
   { "Project" = [
     { "Overview" = "project/index.md" },
+    { "Changes from WatchWolf" = "project/changes-from-watchwolf.md" },
     { "Current work" = "project/current-work.md" },
     { "Migration plan" = "project/migration.md" },
     { "Architecture decisions" = [

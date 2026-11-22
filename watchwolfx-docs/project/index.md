@@ -5,6 +5,7 @@ current architecture exists, but it is not required for day-to-day operation.
 
 ## Status and migration
 
+- [Changes from the original WatchWolf project](changes-from-watchwolf.md)
 - [Current work](current-work.md)
 - [WatchWolfX migration plan](migration.md)
 

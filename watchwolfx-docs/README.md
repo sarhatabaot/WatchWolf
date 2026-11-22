@@ -41,6 +41,8 @@ layout.
   generated reference material.
 - [`api-docs.py`](api-docs.py) and [`api-docs.Dockerfile`](api-docs.Dockerfile) generate API docs.
 - [`project/migration.md`](project/migration.md) records the WatchWolf-to-WatchWolfX 0.5.0 migration plan.
+- [`project/changes-from-watchwolf.md`](project/changes-from-watchwolf.md) documents the divergent
+  release history beginning with 0.4.0.
 - [`project/engineering/runtime-inventory.md`](project/engineering/runtime-inventory.md) records the discovered
   provisioning and test execution path.
 - [`project/current-work.md`](project/current-work.md) records active migration state and handoff information.
