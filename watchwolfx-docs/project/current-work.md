@@ -42,6 +42,9 @@
 - Completed: added a GitHub Pages deployment for `watchwolfx-docs` with a documentation landing
   page, enabled Pages with GitHub Actions as its source, and renamed the GitHub repository from
   `sarhatabaot/WatchWolf` to `sarhatabaot/WatchWolfX` while preserving the upstream remote.
+- Completed: replaced the automatic Jekyll page listing with a pinned Zensical site, curated
+  navigation, search, responsive styling, and task-oriented guides for installation,
+  configuration, architecture, runtimes, development, releases, and troubleshooting.
 - Verified: Core passed 33 tests on Java 8; Server assembled successfully; ServerManager passed
   103 tests with 5 skipped on Java 17; Tester assembled successfully. Tester's ordinary test
   source set is a live integration suite and is therefore not executed by the artifact release

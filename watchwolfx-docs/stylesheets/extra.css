@@ -1,0 +1,94 @@
+:root {
+  --wwx-accent: #ff7043;
+  --wwx-surface: rgba(96, 125, 139, 0.08);
+}
+
+.md-header {
+  background: linear-gradient(105deg, #263238 0%, #37474f 58%, #4e342e 100%);
+}
+
+.md-tabs {
+  background-color: #263238;
+}
+
+.wwx-hero {
+  padding: 2rem 0 1.25rem;
+}
+
+.wwx-hero h1 {
+  margin-bottom: 0.5rem;
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  font-weight: 750;
+  letter-spacing: -0.04em;
+}
+
+.wwx-hero p {
+  max-width: 48rem;
+  font-size: 1.05rem;
+}
+
+.wwx-kicker {
+  display: block;
+  color: var(--wwx-accent);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.wwx-status {
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: center;
+  margin: 0.25rem 0.5rem 0.25rem 0;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid rgba(96, 125, 139, 0.35);
+  border-radius: 999px;
+  background: var(--wwx-surface);
+  font-size: 0.8rem;
+  font-weight: 650;
+}
+
+.md-typeset .grid.cards > ul > li {
+  border-color: rgba(96, 125, 139, 0.28);
+  border-radius: 0.65rem;
+  box-shadow: 0 0.35rem 1rem rgba(38, 50, 56, 0.06);
+}
+
+.md-typeset .grid.cards > ul > li:hover {
+  border-color: var(--wwx-accent);
+}
+
+.md-typeset code {
+  border-radius: 0.2rem;
+}
+
+@media screen and (max-width: 44.984375em) {
+  .wwx-hero {
+    max-width: 100%;
+    overflow: hidden;
+    padding-top: 1.25rem;
+  }
+
+  .wwx-hero h1 {
+    max-width: 100%;
+    font-size: 2.35rem;
+    overflow-wrap: anywhere;
+  }
+
+  .wwx-hero p,
+  .wwx-kicker {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .wwx-hero .md-button {
+    display: block;
+    width: 100%;
+    margin: 0.45rem 0;
+    text-align: center;
+  }
+
+  .wwx-status {
+    font-size: 0.72rem;
+  }
+}

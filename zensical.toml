@@ -1,0 +1,134 @@
+[project]
+site_name = "WatchWolfX"
+site_description = "Documentation for the WatchWolfX Minecraft plugin integration-testing platform"
+site_url = "http://sarhatabaot.net/WatchWolfX/"
+repo_url = "https://github.com/sarhatabaot/WatchWolfX"
+repo_name = "sarhatabaot/WatchWolfX"
+edit_uri = "edit/main/watchwolfx-docs/"
+docs_dir = "watchwolfx-docs"
+site_dir = "site"
+copyright = "WatchWolfX is an independent hard fork of WatchWolf."
+extra_css = ["stylesheets/extra.css"]
+exclude_docs = """
+/.venv/
+/Diagram.mdj
+/api-docs.Dockerfile
+/api-docs-requirements.txt
+/api-docs.py
+/node/
+/pages-requirements.txt
+/legacy-standard-readme.md
+/README.md
+/API/**/*.tex
+"""
+not_in_nav = """
+/API/definitions/**/*.md
+"""
+nav = [
+  { "Home" = "index.md" },
+  { "User guide" = [
+    { "Overview" = "user-guide/index.md" },
+    { "Install and run" = "user-guide/getting-started.md" },
+    { "Configuration" = "user-guide/configuration.md" },
+    { "Troubleshooting" = "user-guide/troubleshooting.md" },
+  ] },
+  { "Concepts" = [
+    { "Overview" = "concepts/index.md" },
+    { "Architecture" = "concepts/architecture.md" },
+    { "Minecraft runtimes" = "concepts/runtime-providers.md" },
+    { "Protocol and API" = "concepts/protocol.md" },
+  ] },
+  { "Contributing" = [
+    { "Overview" = "contributing/index.md" },
+    { "Development" = "contributing/development.md" },
+    { "Releases" = "contributing/releases.md" },
+  ] },
+  { "Project" = [
+    { "Overview" = "project/index.md" },
+    { "Current work" = "project/current-work.md" },
+    { "Migration plan" = "project/migration.md" },
+    { "Architecture decisions" = [
+      { "Container base images" = "project/decisions/0001-container-base-policy.md" },
+      { "Compose deployment" = "project/decisions/0002-compose-only-deployment.md" },
+    ] },
+    { "Engineering records" = [
+      { "Runtime inventory" = "project/engineering/runtime-inventory.md" },
+      { "Import manifest" = "project/engineering/import-manifest.md" },
+    ] },
+  ] },
+]
+
+[project.theme]
+language = "en"
+features = [
+  "content.action.edit",
+  "content.code.copy",
+  "content.code.select",
+  "content.tooltips",
+  "navigation.footer",
+  "navigation.indexes",
+  "navigation.instant",
+  "navigation.instant.prefetch",
+  "navigation.path",
+  "navigation.sections",
+  "navigation.tabs",
+  "navigation.tabs.sticky",
+  "navigation.top",
+  "navigation.tracking",
+  "search.highlight",
+  "toc.follow",
+]
+
+[project.theme.icon]
+logo = "fontawesome/solid/paw"
+repo = "fontawesome/brands/github"
+
+[project.theme.font]
+text = "Inter"
+code = "JetBrains Mono"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme)"
+toggle.icon = "lucide/sun-moon"
+toggle.name = "Use system theme"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: light)"
+scheme = "default"
+primary = "blue grey"
+accent = "deep orange"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+media = "(prefers-color-scheme: dark)"
+scheme = "slate"
+primary = "blue grey"
+accent = "orange"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
+
+[[project.extra.social]]
+icon = "fontawesome/brands/github"
+link = "https://github.com/sarhatabaot/WatchWolfX"
+
+[project.markdown_extensions]
+abbr = {}
+admonition = {}
+attr_list = {}
+def_list = {}
+footnotes = {}
+md_in_html = {}
+toc.permalink = true
+pymdownx.details = {}
+pymdownx.highlight.anchor_linenums = true
+pymdownx.highlight.line_spans = "__span"
+pymdownx.highlight.pygments_lang_class = true
+pymdownx.inlinehilite = {}
+pymdownx.keys = {}
+pymdownx.superfences.custom_fences = [
+  { name = "mermaid", class = "mermaid", format = "pymdownx.superfences.fence_code_format" },
+]
+pymdownx.tabbed.alternate_style = true
+pymdownx.tasklist.custom_checkbox = true
+pymdownx.tilde = {}

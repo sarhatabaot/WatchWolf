@@ -1,6 +1,5 @@
 texput.log
-.jekyll-cache/
-_site/
+/site/
 .env
 release.env
 API.*

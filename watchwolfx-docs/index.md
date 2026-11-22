@@ -1,28 +1,89 @@
 ---
-layout: home
-title: WatchWolfX documentation
+hide:
+  - navigation
+  - toc
 ---
 
-WatchWolfX is an independently maintained hard fork of WatchWolf for integration-testing
-Minecraft plugins. The project keeps the existing protocol compatible while modernizing the
-control plane, build, release, and Minecraft runtime paths.
+<div class="wwx-hero" markdown>
 
-## Start here
+<span class="wwx-kicker">Minecraft integration testing</span>
 
-- [Run WatchWolfX](https://github.com/sarhatabaot/WatchWolfX#run-watchwolfx)
-- [Current engineering work](current-work.md)
-- [Minecraft runtime inventory](engineering/runtime-inventory.md)
-- [WatchWolfX migration plan](migration.md)
-- [Architecture decisions](decisions/)
+# Test plugins on real servers without hand-building every runtime
 
-## Protocol and API
+WatchWolfX provisions disposable Minecraft servers and headless clients, drives them from JUnit,
+and cleans them up when the test completes. It preserves the WatchWolf protocol while modernizing
+the runtime, deployment, and release paths.
 
-- [Protocol specification](API/API.pdf)
-- [Machine-readable API definitions](API/definitions/)
+[Get started](user-guide/getting-started.md){ .md-button .md-button--primary }
+[View on GitHub](https://github.com/sarhatabaot/WatchWolfX){ .md-button }
 
-## Project status
+<span class="wwx-status">Release line 0.5.2</span>
+<span class="wwx-status">Paper via itzg</span>
+<span class="wwx-status">Linux containers</span>
 
-The Java modules and ClientsManager currently share release version `0.5.2`. Stable release
-workflows publish versioned artifacts and update the `latest` control-plane image tags. The
-Minecraft runtime defaults to the dynamic `itzg/minecraft-server` provider, with the legacy
-provider retained as a fallback.
+</div>
+
+## Choose a path
+
+<div class="grid cards" markdown>
+
+-   **Run WatchWolfX**
+
+    Start the control plane with Docker Compose and execute the included example against a real
+    Paper server.
+
+    [Install and run →](user-guide/getting-started.md)
+
+-   **Configure the runtime**
+
+    Select `itzg` or the legacy provider, choose the runtime image, and understand networking and
+    storage settings.
+
+    [Configuration →](user-guide/configuration.md)
+
+-   **Understand the system**
+
+    Follow a test request from Tester through ServerManager, Minecraft, WatchWolfX Server, and
+    cleanup.
+
+    [Architecture →](concepts/architecture.md)
+
+-   **Contribute**
+
+    Build each module, run the appropriate test layers, update protocol code, and prepare a
+    release.
+
+    [Development guide →](contributing/development.md)
+
+</div>
+
+## What WatchWolfX runs
+
+```mermaid
+flowchart LR
+    T[JUnit and Tester] -->|request server| SM[ServerManager]
+    SM -->|Docker API| MC[Ephemeral Paper server]
+    SM -->|inject| S[WatchWolfX Server plugin]
+    T -->|petitions| S
+    T -->|request players| CM[ClientsManager]
+    CM --> C[Headless Minecraft clients]
+    C --> MC
+    S -->|ready and results| T
+```
+
+!!! note "Independent project"
+
+    WatchWolfX is an independently maintained hard fork. The Java package namespace remains
+    `dev.watchwolf` for protocol compatibility, while published artifacts use `dev.watchwolfx`.
+
+## Current defaults
+
+| Area | Default | Notes |
+| --- | --- | --- |
+| Deployment | Docker Compose | Manages the long-lived control plane only |
+| Minecraft runtime | `itzg` | Dynamically downloads the requested supported Paper version |
+| Runtime image | `itzg/minecraft-server:auto` | Image and Minecraft versions are separate dimensions |
+| Release version | `0.5.2` | Java modules and ClientsManager are validated together |
+| Legacy runtime | Available | Retained as a compatibility fallback |
+
+[See current engineering status](project/current-work.md)

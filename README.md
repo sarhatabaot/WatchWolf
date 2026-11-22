@@ -26,8 +26,8 @@ separate from product naming.
 The source trees have been consolidated without rewriting their build systems. Use each module's
 wrapper or CI scripts and read its local `AGENTS.md` before changing it. The current runtime flow,
 Docker behavior, test coverage and known risks are recorded in
-[`runtime-inventory.md`](watchwolfx-docs/engineering/runtime-inventory.md). Active migration work is
-tracked in [`current-work.md`](watchwolfx-docs/current-work.md).
+[`runtime-inventory.md`](watchwolfx-docs/project/engineering/runtime-inventory.md). Active migration
+work is tracked in [`current-work.md`](watchwolfx-docs/project/current-work.md).
 
 Root Compose files manage the long-lived WatchWolfX control plane. ServerManager retains Docker
 daemon access because it dynamically launches ephemeral Minecraft instances; Minecraft instances
