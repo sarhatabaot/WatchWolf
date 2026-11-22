@@ -1,4 +1,6 @@
 texput.log
+.jekyll-cache/
+_site/
 .env
 release.env
 API.*
@@ -11,3 +13,4 @@ diagram.*
 !diagram.tex
 !api-docs.py
 !api-docs.Dockerfile
+bin/

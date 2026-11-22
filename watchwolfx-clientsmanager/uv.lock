@@ -219,7 +219,7 @@ wheels = [
 
 [[package]]
 name = "watchwolfx-clientsmanager"
-version = "0.5.0"
+version = "0.5.2"
 source = { editable = "." }
 dependencies = [
     { name = "imageio", extra = ["ffmpeg"] },

@@ -47,5 +47,6 @@ Server plugin in ServerManager, and preserves ServerManager's dynamic Docker acc
 Minecraft instances. Set `WATCHWOLFX_SERVERMANAGER_IMAGE` and `WATCHWOLFX_CLIENTSMANAGER_IMAGE`
 to published tags when building locally is not desired.
 
-See [`watchwolfx-docs`](watchwolfx-docs/) for the protocol specification, migration plan and
-historical standard-repository documentation.
+See the [WatchWolfX documentation](http://sarhatabaot.net/WatchWolfX/) for the protocol
+specification, migration plan and runtime engineering notes. Its sources live under
+[`watchwolfx-docs`](watchwolfx-docs/).

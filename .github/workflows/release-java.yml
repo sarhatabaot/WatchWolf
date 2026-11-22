@@ -27,21 +27,27 @@ jobs:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           [[ "$RELEASE_TAG" == v* ]]
-          test "${RELEASE_TAG#v}" = "0.5.0"
+          PROJECT_VERSION=$(bash ./watchwolfx-core/gradlew -q -p watchwolfx-core properties | awk '/^version: / { print $2 }')
+          test -n "$PROJECT_VERSION"
+          test "${RELEASE_TAG#v}" = "$PROJECT_VERSION"
+          test "$(bash ./watchwolfx-server/gradlew -q -p watchwolfx-server properties | awk '/^version: / { print $2 }')" = "$PROJECT_VERSION"
+          test "$(bash ./watchwolfx-servermanager/gradlew -q -p watchwolfx-servermanager properties | awk '/^version: / { print $2 }')" = "$PROJECT_VERSION"
+          test "$(bash ./watchwolfx-tester/gradlew -q -p watchwolfx-tester properties | awk '/^version: / { print $2 }')" = "$PROJECT_VERSION"
+          test "$(python -c 'import tomllib; print(tomllib.load(open("watchwolfx-clientsmanager/pyproject.toml", "rb"))["project"]["version"])')" = "$PROJECT_VERSION"
+          echo "PROJECT_VERSION=$PROJECT_VERSION" >> "$GITHUB_ENV"
 
       - name: Build, test and publish Core
         working-directory: watchwolfx-core
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: mvn --batch-mode --no-transfer-progress clean deploy
+        run: bash ./gradlew --no-daemon clean check assemble publish
 
       - name: Provide Core to downstream builds
         run: |
-          install -D watchwolfx-core/target/watchwolfx-core-0.5.0.jar \
-            watchwolfx-server/lib/watchwolfx-core-0.5.0.jar
-          install -D watchwolfx-core/target/watchwolfx-core-0.5.0.jar \
-            watchwolfx-servermanager/lib/watchwolfx-core-0.5.0.jar
+          CORE_JAR="watchwolfx-core/build/libs/watchwolfx-core-${PROJECT_VERSION}.jar"
+          install -D "$CORE_JAR" "watchwolfx-server/lib/$(basename "$CORE_JAR")"
+          install -D "$CORE_JAR" "watchwolfx-servermanager/lib/$(basename "$CORE_JAR")"
 
       - name: Build, test and publish Server
         working-directory: watchwolfx-server
@@ -67,9 +73,9 @@ jobs:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
         run: |
           mkdir release-assets
-          cp watchwolfx-core/target/watchwolfx-core-0.5.0.jar release-assets/
-          cp watchwolfx-server/build/libs/WatchWolf-0.5.0-1.8-LATEST.jar release-assets/
-          cp watchwolfx-servermanager/build/libs/watchwolfx-servermanager-0.5.0.jar release-assets/
-          cp watchwolfx-tester/build/libs/watchwolfx-tester-0.5.0.jar release-assets/
-          (cd release-assets && sha256sum *.jar > SHA256SUMS)
-          gh release upload "$RELEASE_TAG" release-assets/* --clobber
+          cp "watchwolfx-core/build/libs/watchwolfx-core-${PROJECT_VERSION}.jar" release-assets/
+          cp "watchwolfx-server/build/libs/WatchWolf-${PROJECT_VERSION}-1.8-LATEST.jar" release-assets/
+          cp "watchwolfx-servermanager/build/libs/watchwolfx-servermanager-${PROJECT_VERSION}.jar" release-assets/
+          cp "watchwolfx-tester/build/libs/watchwolfx-tester-${PROJECT_VERSION}.jar" release-assets/
+          (cd release-assets && sha256sum ./*.jar > SHA256SUMS)
+          gh release upload "$RELEASE_TAG" ./release-assets/* --clobber

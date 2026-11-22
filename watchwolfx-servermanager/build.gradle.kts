@@ -6,14 +6,14 @@ plugins {
 }
 
 group = "dev.watchwolfx"
-version = "0.5.1"
+version = "0.5.2"
 
 base {
     archivesName.set("watchwolfx-servermanager")
 }
 
 dependencies {
-    implementation(files("lib/watchwolfx-core-0.5.0.jar"))
+    implementation(fileTree("lib") { include("watchwolfx-core-*.jar") })
     implementation("com.github.docker-java:docker-java:3.3.6")
     implementation("org.apache.logging.log4j:log4j-api:2.23.1")
     implementation("org.apache.logging.log4j:log4j-core:2.23.1")

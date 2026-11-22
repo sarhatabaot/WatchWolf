@@ -4,7 +4,7 @@ The in-game half of WatchWolf: a **Spigot plugin** that opens a socket and execu
 petitions against the live server (place blocks, spawn entities, run commands, read inventories,
 record video, pull timings…).
 
-`dev.watchwolfx:watchwolfx-server:0.5.0` · **Java 8 bytecode** · Gradle · DST `0b001` in the
+`dev.watchwolfx:watchwolfx-server:0.5.2` · **Java 8 bytecode** · Gradle · DST `0b001` in the
 [WatchWolf protocol](https://github.com/watch-wolf/WatchWolf).
 Pre-compiled builds: <https://watchwolf.dev/versions/>.
 
@@ -61,7 +61,7 @@ expects, so the jar can be copied straight there.
 
 ### Dependencies
 
-Gradle resolves the Spigot 1.16.5 API as `compileOnly` and Core 0.5.0 plus XSeries as shaded
+Gradle resolves the Spigot 1.16.5 API as `compileOnly` and the matching Core plus XSeries as shaded
 dependencies. No local Spigot server JAR or Core JAR is required. The plugin is expected to run on
 **1.8 through the latest**, using XSeries and the reflection/adapters under `worldguard/`,
 `timings/` and `utils/`.

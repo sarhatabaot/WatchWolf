@@ -1,8 +1,8 @@
 # Current work
 
-## WatchWolfX 0.5.0 monorepo migration
+## WatchWolfX monorepo migration
 
-- Branch: `watchwolfx-0.5.0` in the current `WatchWolf` checkout.
+- Active implementation branch: `feature/core-gradle`.
 - Scope: consolidate the maintained forks under the WatchWolfX name while preserving separate
   packages/images and the existing `dev.watchwolf` protocol/package compatibility for 0.5.0.
 - Completed: inspected `DESIGN.md`, `migration.md`, all available repository instructions, the
@@ -33,6 +33,15 @@
 - Completed: aligned the Java release coordinates to WatchWolfX 0.5.0, added an ordered Java
   artifact workflow, and made the ServerManager image build Core, ServerManager and Server from
   the monorepo source tree.
+- Completed: converted `watchwolfx-core` from Maven to Gradle while preserving Java 8 bytecode,
+  shaded-jar output, separate unit/integration tasks, RPC generation, and GitHub Packages
+  publishing. ServerManager's image and the Java release workflow now derive the Core artifact
+  filename from the Gradle project version instead of pinning it separately.
+- Completed: release workflows now validate the release tag against every module version. Stable
+  image releases also update `latest`, while examples can select an explicit WatchWolfX version.
+- Completed: added a GitHub Pages deployment for `watchwolfx-docs` with a documentation landing
+  page, enabled Pages with GitHub Actions as its source, and renamed the GitHub repository from
+  `sarhatabaot/WatchWolf` to `sarhatabaot/WatchWolfX` while preserving the upstream remote.
 - Verified: Core passed 33 tests on Java 8; Server assembled successfully; ServerManager passed
   103 tests with 5 skipped on Java 17; Tester assembled successfully. Tester's ordinary test
   source set is a live integration suite and is therefore not executed by the artifact release

@@ -5,7 +5,7 @@ module exchanges, the RPC runtime that carries it over a socket, and the generat
 [API definitions](https://github.com/watch-wolf/WatchWolf/tree/main/API/definitions) into Java
 stubs.
 
-`dev.watchwolfx:watchwolfx-core:0.5.0` · **Java 8** · Maven
+`dev.watchwolfx:watchwolfx-core:0.5.2` · **Java 8 bytecode** · Gradle
 
 This is a library — it has no `main`. It is consumed by
 [WatchWolf-ServersManager](https://github.com/miranda1000/WatchWolf-ServersManager) and, as
@@ -26,7 +26,7 @@ the migration progresses, by the rest of the framework.
 
 ## Requirements
 
-- Docker (every script below runs Maven inside a container, so no local JDK or Maven is needed)
+- Docker (the convenience scripts run Gradle inside a container, so no local JDK is needed)
 
 ## Compile
 
@@ -34,8 +34,8 @@ the migration progresses, by the rest of the framework.
 ./ci/build.sh --preclean
 ```
 
-Produces `target/watchwolfx-core-<version>.jar`, a fat jar (`jar-with-dependencies`, no assembly
-suffix). Downstream projects expect exactly that file in their `lib/` folder.
+Produces `build/libs/watchwolfx-core-<version>.jar`, a shaded jar with no classifier. Downstream
+projects discover `lib/watchwolfx-core-*.jar`, so the project version controls the artifact name.
 
 ## Test
 
@@ -45,8 +45,8 @@ suffix). Downstream projects expect exactly that file in their `lib/` folder.
 ./ci/tests.sh --unit --tests 'VersionShould'    # filter to one class
 ```
 
-Reports are written to `target/site` (HTML summary), `target/surefire-reports` (unit) and
-`target/failsafe-reports` (integration).
+Reports are written to `build/reports/tests/test` (unit) and
+`build/reports/tests/integrationTest` (integration).
 
 Test names are part of the contract, and `./ci/validator.sh` checks them:
 
@@ -78,13 +78,13 @@ classes under `entities.blocks.special` are generated too, but by a different to
 Releases are published to GitHub Packages
 (`https://maven.pkg.github.com/<owner>/<repository>`, selected from `GITHUB_REPOSITORY`) and attached to
 [GitHub releases](https://github.com/watch-wolf/WatchWolf-Core/releases). The other WatchWolf
-modules take the simpler route: drop the jar into `lib/` and let Maven install it locally.
+modules take the simpler route: drop the jar into `lib/` and let Gradle consume it locally.
 
 ```xml
 <dependency>
     <groupId>dev.watchwolfx</groupId>
     <artifactId>watchwolfx-core</artifactId>
-    <version>0.5.0</version>
+    <version>0.5.2</version>
 </dependency>
 ```
 

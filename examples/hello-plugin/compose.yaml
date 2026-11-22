@@ -2,7 +2,7 @@ name: watchwolf-example
 
 services:
   servers-manager:
-    image: ${WATCHWOLFX_SERVERMANAGER_IMAGE:-ghcr.io/sarhatabaot/watchwolfx-servermanager:v0.5.0}
+    image: ${WATCHWOLFX_SERVERMANAGER_IMAGE:-ghcr.io/sarhatabaot/watchwolfx-servermanager:latest}
     ports:
       - "8000:8000"
     environment:
@@ -23,7 +23,7 @@ services:
       retries: 24
 
   clients-manager:
-    image: ${WATCHWOLFX_CLIENTSMANAGER_IMAGE:-ghcr.io/sarhatabaot/watchwolfx-clientsmanager:v0.5.0}
+    image: ${WATCHWOLFX_CLIENTSMANAGER_IMAGE:-ghcr.io/sarhatabaot/watchwolfx-clientsmanager:latest}
     ports:
       - "7000-7199:7000-7199"
     environment:

@@ -7,10 +7,10 @@ on the server.
 ## Run from an IDE
 
 You need Docker Engine with Linux containers, a JDK supported by Gradle 9, and network access
-for the first dependency and Paper downloads. The Compose file uses the published WatchWolfX
-`v0.5.0` ServerManager and ClientsManager images. The test resolves the WatchWolfX Tester
-`v0.5.0` JAR from the WatchWolfX GitHub Release. No sibling WatchWolfX source checkouts are
-needed.
+for the first dependency and Paper downloads. The Compose file uses the latest stable published
+WatchWolfX ServerManager and ClientsManager images. The test resolves the WatchWolfX Tester
+version selected by `WATCHWOLFX_VERSION` (`0.5.2` by default) from the WatchWolfX GitHub Release.
+No sibling WatchWolfX source checkouts are needed.
 
 1. From this directory, run `docker compose up --wait -d`. Compose starts the control plane
    and waits for ports 7000 and 8000. ServersManager uses the itzg Paper runtime and creates
@@ -35,17 +35,17 @@ The control-plane images and itzg runtime are independently overrideable without
 example or publishing another WatchWolfX version:
 
 ```env
-WATCHWOLFX_SERVERMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-servermanager:v0.5.0
-WATCHWOLFX_CLIENTSMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-clientsmanager:v0.5.0
-WATCHWOLFX_RELEASE_REPOSITORY=sarhatabaot/WatchWolf
+WATCHWOLFX_SERVERMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-servermanager:latest
+WATCHWOLFX_CLIENTSMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-clientsmanager:latest
+WATCHWOLFX_RELEASE_REPOSITORY=sarhatabaot/WatchWolfX
+WATCHWOLFX_VERSION=0.5.2
 WATCHWOLF_ITZG_IMAGE=itzg/minecraft-server
 WATCHWOLF_ITZG_TAG=auto
 ```
 
-`WATCHWOLFX_RELEASE_REPOSITORY` controls where Gradle downloads the Tester release asset. The
-default is the repository's current GitHub name; it can be changed after a repository transfer
-or rename without editing the build.
+`WATCHWOLFX_RELEASE_REPOSITORY` controls where Gradle downloads the Tester release asset, while
+`WATCHWOLFX_VERSION` selects its release. Pin both image variables to `v<version>` when a
+reproducible run is more important than following the latest stable release.
 
-The Compose and Gradle flow targets `v0.5.0`. The WatchWolfX control-plane images were smoke
-tested on Windows Docker Desktop with Linux containers. Linux Docker Engine has not been run
-for this example in this workspace.
+The WatchWolfX control-plane images were smoke tested on Windows Docker Desktop with Linux
+containers. Linux Docker Engine has not been run for this example in this workspace.

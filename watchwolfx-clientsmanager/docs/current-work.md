@@ -2,7 +2,7 @@
 
 ## Python/uv modernization
 
-- Status: complete and ready for review on the monorepo `watchwolfx-0.5.0` branch.
+- Status: complete and ready for review in the WatchWolfX monorepo.
 - Scope: installable package layout, uv dependency management, quality checks and reproducible
   container entry point without changing WatchWolf protocol behavior.
 - Verified: locked dependency resolution, Ruff lint/format, BasedPyright, five pytest tests,

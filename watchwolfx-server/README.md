@@ -5,7 +5,7 @@ and executes the Tester's petitions against the live server — place and read b
 inspect entities, teleport players, give items, run commands, manage WorldGuard regions, record
 video and collect timings reports.
 
-`dev.watchwolfx:watchwolfx-server:0.5.0` · **Java 8** · Spigot 1.8 → latest
+`dev.watchwolfx:watchwolfx-server:0.5.2` · **Java 8** · Spigot 1.8 → latest
 
 You can download a pre-compiled version [here](https://watchwolf.dev/versions/).
 
@@ -60,7 +60,9 @@ across.
 Gradle resolves `spigot-api:1.16.5-R0.1-SNAPSHOT` from the Spigot snapshots repository. It is a
 compile-only dependency: Minecraft supplies the API at runtime. This plugin does not import NMS or
 CraftBukkit classes, so building it needs no local Spigot server JAR. Gradle resolves
-`watchwolfx-core:0.5.0` from `lib/` and `XSeries:9.9.0`, shading both into the plugin JAR.
+the current `watchwolfx-core` artifact from `lib/` and `XSeries:9.9.0`, shading both into the
+plugin JAR. The release and container builds populate `lib/` from the Core Gradle build, so its
+filename follows the Core project version.
 ServersManager now defaults to the itzg runtime, which downloads the requested supported Paper
 version when an instance starts. Prebuilt server JARs under `server-types/` are needed only when
 the explicit `legacy` fallback is selected.

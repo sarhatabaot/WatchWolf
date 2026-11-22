@@ -2,36 +2,26 @@
 set -euo pipefail
 
 if [[ $# -gt 0 ]]; then
-    if [[ $# -eq 1 && ( $1 == --help || $1 == -h ) ]]; then
-        echo "Usage: $0"
-        echo "Build, run unit tests, and publish to GitHub Packages using Docker."
-        echo "Requires Docker and credentials for server 'github' in ~/.m2/settings.xml."
-        exit 0
-    fi
-    echo "[e] Unknown arguments. Usage: $0" >&2
+    echo "Usage: $0" >&2
     exit 1
 fi
 
-command -v docker >/dev/null 2>&1 || {
-    echo "[e] Docker is required to publish WatchWolf-Core." >&2
-    exit 1
-}
+: "${GITHUB_ACTOR:?Set GITHUB_ACTOR before publishing}"
+: "${GITHUB_TOKEN:?Set GITHUB_TOKEN before publishing}"
 
-script_path=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+script_path=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)
 base_path=$(dirname "$script_path")
-local_maven_repos_path="$HOME/.m2"
+local_gradle_cache="$HOME/.gradle"
+mkdir -p "$local_gradle_cache"
 
-if [[ ! -r "$local_maven_repos_path/settings.xml" ]]; then
-    echo "[e] Configure GitHub Packages credentials for server 'github' in ~/.m2/settings.xml first." >&2
-    exit 1
-fi
-
-tty_flags=()
-if [[ -t 0 && -t 1 ]]; then tty_flags=(-it); fi
-
-echo "[v] Publishing WatchWolf-Core to the repository declared in pom.xml..."
-exec docker run "${tty_flags[@]}" --rm \
-    -v "$base_path":/compile \
-    -v "$local_maven_repos_path":/root/.m2 \
-    -w /compile \
-    maven:3.8.4-openjdk-8 mvn --batch-mode clean deploy --file /compile/pom.xml
+echo "[v] Building, testing, and publishing WatchWolfX Core..."
+docker run --rm \
+    --volume "$base_path:/compile" \
+    --volume "$local_gradle_cache:/gradle-cache" \
+    --env GRADLE_USER_HOME=/gradle-cache \
+    --env GITHUB_ACTOR \
+    --env GITHUB_TOKEN \
+    --env GITHUB_REPOSITORY \
+    --workdir /compile \
+    gradle:9.7.1-jdk17 \
+    gradle --no-daemon clean check assemble publish

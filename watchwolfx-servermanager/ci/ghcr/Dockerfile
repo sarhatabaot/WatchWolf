@@ -1,17 +1,19 @@
 # The build context is the WatchWolfX monorepo root.
 
 # Stage 1: Build the local WatchWolfX Core artifact used by both Java services.
-FROM maven:3.9-eclipse-temurin-8 AS core_build
+FROM gradle:9.7.1-jdk17 AS core_build
+USER root
 WORKDIR /src/core
 COPY watchwolfx-core/ .
-RUN mvn --batch-mode --no-transfer-progress -DskipTests clean package
+RUN gradle --no-daemon clean shadowJar -x test
 
 # Stage 2: Build ServersManager jar.
 FROM gradle:9.7.1-jdk17 AS manager_build
 USER root
 WORKDIR /src/manager
 COPY watchwolfx-servermanager/ .
-COPY --from=core_build /src/core/target/watchwolfx-core-0.5.0.jar lib/watchwolfx-core-0.5.0.jar
+RUN rm -f lib/watchwolfx-core-*.jar
+COPY --from=core_build /src/core/build/libs/watchwolfx-core-*.jar lib/
 RUN gradle --no-daemon shadowJar -x test
 
 # Create the final required directory structure in this stage.
@@ -22,7 +24,8 @@ FROM gradle:9.7.1-jdk17 AS plugin_build
 USER root
 WORKDIR /src/server
 COPY watchwolfx-server/ .
-COPY --from=core_build /src/core/target/watchwolfx-core-0.5.0.jar lib/watchwolfx-core-0.5.0.jar
+RUN rm -f lib/watchwolfx-core-*.jar
+COPY --from=core_build /src/core/build/libs/watchwolfx-core-*.jar lib/
 RUN gradle --no-daemon shadowJar
 
 # Stage 4: Wolfi runtime. A shell and netcat are retained for diagnostics and health checks.
