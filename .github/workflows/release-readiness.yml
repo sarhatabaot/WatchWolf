@@ -1,0 +1,95 @@
+name: Check release readiness
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      release_tag:
+        description: Optional release tag to validate, for example v0.5.2
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Validate versions and build artifacts
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Validate release inputs
+        env:
+          RELEASE_TAG: ${{ inputs.release_tag }}
+        run: bash ./ci/release-preflight.sh "$RELEASE_TAG"
+
+      - name: Build and test Core
+        working-directory: watchwolfx-core
+        run: ./gradlew --no-daemon clean check assemble
+
+      - name: Provide Core to downstream builds
+        run: |
+          CORE_JAR="watchwolfx-core/build/libs/watchwolfx-core-${PROJECT_VERSION}.jar"
+          install -D "$CORE_JAR" "watchwolfx-server/lib/$(basename "$CORE_JAR")"
+          install -D "$CORE_JAR" "watchwolfx-servermanager/lib/$(basename "$CORE_JAR")"
+
+      - name: Build Server
+        working-directory: watchwolfx-server
+        run: ./gradlew --no-daemon clean check assemble
+
+      - name: Build and test ServerManager
+        working-directory: watchwolfx-servermanager
+        run: ./gradlew --no-daemon clean check assemble
+
+      - name: Build Tester
+        working-directory: watchwolfx-tester
+        run: ./gradlew --no-daemon clean assemble
+
+  clients-manager:
+    name: Validate ClientsManager
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: astral-sh/setup-uv@v7
+        with:
+          version: '0.9.18'
+          enable-cache: true
+      - name: Install locked dependencies
+        working-directory: watchwolfx-clientsmanager
+        run: uv sync --locked
+      - name: Lint, type-check and test
+        working-directory: watchwolfx-clientsmanager
+        run: |
+          uv run ruff check .
+          uv run basedpyright
+          uv run pytest
+
+  images:
+    name: Build release images
+    needs: [build, clients-manager]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-buildx-action@v3
+      - name: Build ServerManager image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./watchwolfx-servermanager/ci/ghcr/Dockerfile
+          platforms: linux/amd64
+          push: false
+          tags: watchwolfx-servermanager:release-check
+      - name: Build ClientsManager image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./watchwolfx-clientsmanager
+          platforms: linux/amd64
+          push: false
+          tags: watchwolfx-clientsmanager:release-check

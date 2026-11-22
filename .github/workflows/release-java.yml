@@ -25,16 +25,7 @@ jobs:
       - name: Validate release version
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
-        run: |
-          [[ "$RELEASE_TAG" == v* ]]
-          PROJECT_VERSION=$(bash ./watchwolfx-core/gradlew -q -p watchwolfx-core properties | awk '/^version: / { print $2 }')
-          test -n "$PROJECT_VERSION"
-          test "${RELEASE_TAG#v}" = "$PROJECT_VERSION"
-          test "$(bash ./watchwolfx-server/gradlew -q -p watchwolfx-server properties | awk '/^version: / { print $2 }')" = "$PROJECT_VERSION"
-          test "$(bash ./watchwolfx-servermanager/gradlew -q -p watchwolfx-servermanager properties | awk '/^version: / { print $2 }')" = "$PROJECT_VERSION"
-          test "$(bash ./watchwolfx-tester/gradlew -q -p watchwolfx-tester properties | awk '/^version: / { print $2 }')" = "$PROJECT_VERSION"
-          test "$(python -c 'import tomllib; print(tomllib.load(open("watchwolfx-clientsmanager/pyproject.toml", "rb"))["project"]["version"])')" = "$PROJECT_VERSION"
-          echo "PROJECT_VERSION=$PROJECT_VERSION" >> "$GITHUB_ENV"
+        run: bash ./ci/release-preflight.sh "$RELEASE_TAG"
 
       - name: Build, test and publish Core
         working-directory: watchwolfx-core

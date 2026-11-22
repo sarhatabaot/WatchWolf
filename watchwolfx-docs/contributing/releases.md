@@ -20,6 +20,32 @@ Publishing a GitHub Release named `v<version>` starts independent Java and conta
 Each workflow verifies that its participating module versions match the release tag before
 publishing anything.
 
+The shared preflight also verifies that every Gradle wrapper is complete and tracked. This avoids
+creating a release that cannot build from a clean checkout.
+
+## Check a release before publishing
+
+Run the **Check release readiness** workflow from the Actions page before creating a GitHub
+Release. Supply the intended tag, such as `v0.5.2`, to validate it against every module version.
+The workflow performs the non-publishing parts of the release:
+
+- validates the tag, all module versions, and every tracked Gradle wrapper;
+- builds Core, Server, ServerManager, and Tester;
+- runs the hermetic Core and ServerManager checks;
+- lints, type-checks, and tests ClientsManager;
+- builds both release container images without pushing them.
+
+The same workflow runs on pull requests to `main`. Configure the repository's `main` branch rules
+to require its three jobs if release readiness should be an enforced merge gate.
+
+Run the lightweight version and wrapper check locally from the repository root:
+
+```bash
+bash ./ci/release-preflight.sh v0.5.2
+```
+
+This local command does not replace the workflow's clean-checkout builds.
+
 For a stable release, container workflows publish both:
 
 ```text
@@ -33,6 +59,7 @@ Prereleases receive the versioned tag but do not move `latest`.
 
 ## Release checklist
 
+- [ ] The **Check release readiness** workflow passes for the intended tag.
 - [ ] All Gradle project versions match.
 - [ ] `watchwolfx-clientsmanager/pyproject.toml` and `uv.lock` match the release.
 - [ ] Core unit tests and shaded JAR pass.
