@@ -1,25 +1,24 @@
 # Configuration
 
-WatchWolfX reads deployment settings through Compose environment variables. Defaults favor a local
-Docker host and the dynamic itzg Paper runtime.
+WatchWolfX reads deployment settings through Compose environment variables. Defaults use the
+published stable control-plane images, a local Docker host, and the dynamic itzg Paper runtime.
 
 ## Control-plane settings
 
 | Variable | Default | Purpose |
 | --- | --- | --- |
-| `WATCHWOLFX_SERVERMANAGER_IMAGE` | `watchwolfx-servermanager:dev` | Override the locally built ServerManager image |
-| `WATCHWOLFX_CLIENTSMANAGER_IMAGE` | `watchwolfx-clientsmanager:dev` | Override the locally built ClientsManager image |
+| `WATCHWOLFX_SERVERMANAGER_IMAGE` | `ghcr.io/sarhatabaot/watchwolfx-servermanager:latest` | Select the ServerManager image |
+| `WATCHWOLFX_CLIENTSMANAGER_IMAGE` | `ghcr.io/sarhatabaot/watchwolfx-clientsmanager:latest` | Select the ClientsManager image |
 | `WATCHWOLF_MACHINE_IP` | `127.0.0.1` | Address advertised for machine-local services |
 | `WATCHWOLF_PUBLIC_IP` | `127.0.0.1` | Address returned to external test runners |
 
-Published stable images are available from GitHub Container Registry:
+The defaults follow the latest stable release. Pin both services to the same version for a
+reproducible installation:
 
 ```dotenv
-WATCHWOLFX_SERVERMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-servermanager:latest
-WATCHWOLFX_CLIENTSMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-clientsmanager:latest
+WATCHWOLFX_SERVERMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-servermanager:v<version>
+WATCHWOLFX_CLIENTSMANAGER_IMAGE=ghcr.io/sarhatabaot/watchwolfx-clientsmanager:v<version>
 ```
-
-Use `v0.5.2` instead of `latest` to pin a release.
 
 ## Minecraft runtime settings
 

@@ -2,6 +2,30 @@
 
 The monorepo keeps separate build and release units. There is no unified root Gradle build.
 
+## Clone and build the control plane
+
+Cloning the repository is required for development, but not for a normal installation. To build
+the control-plane images from source:
+
+```bash
+git clone https://github.com/sarhatabaot/WatchWolfX.git
+cd WatchWolfX
+cp .env.example .env
+```
+
+Change the two image values in `.env` to local development tags:
+
+```dotenv
+WATCHWOLFX_SERVERMANAGER_IMAGE=watchwolfx-servermanager:dev
+WATCHWOLFX_CLIENTSMANAGER_IMAGE=watchwolfx-clientsmanager:dev
+```
+
+Then build and start the stack:
+
+```bash
+docker compose up --build --wait -d
+```
+
 ## Module commands
 
 | Module | Build | Fast verification |

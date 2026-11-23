@@ -38,14 +38,16 @@ are not Compose services and never receive the Docker socket.
 Docker Compose is the supported installation and runtime workflow:
 
 ```sh
-cp .env.example .env
-docker compose up --build --wait -d
+mkdir watchwolfx && cd watchwolfx
+curl --fail --location --output compose.yaml \
+  https://raw.githubusercontent.com/sarhatabaot/WatchWolfX/main/compose.yaml
+docker compose pull
+docker compose up --no-build --wait -d
 ```
 
-`compose.yaml` builds both control-plane services from the monorepo, includes the WatchWolfX
-Server plugin in ServerManager, and preserves ServerManager's dynamic Docker access for ephemeral
-Minecraft instances. Set `WATCHWOLFX_SERVERMANAGER_IMAGE` and `WATCHWOLFX_CLIENTSMANAGER_IMAGE`
-to published tags when building locally is not desired.
+`compose.yaml` uses the latest stable published control-plane images by default and preserves
+ServerManager's dynamic Docker access for ephemeral Minecraft instances. A source checkout is only
+needed for development or for running the included example project.
 
 See the [WatchWolfX documentation](http://sarhatabaot.net/WatchWolfX/) for the protocol
 specification, migration plan and runtime engineering notes. Its sources live under

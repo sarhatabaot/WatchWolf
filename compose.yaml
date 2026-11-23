@@ -1,6 +1,6 @@
 services:
   servers-manager:
-    image: ${WATCHWOLFX_SERVERMANAGER_IMAGE:-watchwolfx-servermanager:dev}
+    image: ${WATCHWOLFX_SERVERMANAGER_IMAGE:-ghcr.io/sarhatabaot/watchwolfx-servermanager:latest}
     build:
       context: .
       dockerfile: watchwolfx-servermanager/ci/ghcr/Dockerfile
@@ -24,7 +24,7 @@ services:
       retries: 24
 
   clients-manager:
-    image: ${WATCHWOLFX_CLIENTSMANAGER_IMAGE:-watchwolfx-clientsmanager:dev}
+    image: ${WATCHWOLFX_CLIENTSMANAGER_IMAGE:-ghcr.io/sarhatabaot/watchwolfx-clientsmanager:latest}
     build:
       context: ./watchwolfx-clientsmanager
     ports:
