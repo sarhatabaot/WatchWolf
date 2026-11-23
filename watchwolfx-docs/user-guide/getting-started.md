@@ -17,17 +17,13 @@ ClientsManager services; ServerManager creates Minecraft containers only when a 
 
 ## Start the control plane
 
-Create an empty directory and download the deployment manifest. You do not need the WatchWolfX
-source code or a JDK to run the published control plane.
+Create an empty directory. You do not need the WatchWolfX source code or a JDK to run the
+published control plane.
 
 === "Linux and macOS"
 
     ```bash
     mkdir watchwolfx && cd watchwolfx
-    curl --fail --location --output compose.yaml \
-      https://raw.githubusercontent.com/sarhatabaot/WatchWolfX/main/compose.yaml
-    docker compose pull
-    docker compose up --no-build --wait -d
     ```
 
 === "Windows PowerShell"
@@ -35,14 +31,58 @@ source code or a JDK to run the published control plane.
     ```powershell
     New-Item -ItemType Directory -Path watchwolfx
     Set-Location watchwolfx
-    Invoke-WebRequest `
-      https://raw.githubusercontent.com/sarhatabaot/WatchWolfX/main/compose.yaml `
-      -OutFile compose.yaml
-    docker compose pull
-    docker compose up --no-build --wait -d
     ```
 
-The manifest uses the stable `latest` ServerManager and ClientsManager images from GitHub
+Save the following as `compose.yaml` in that directory:
+
+```yaml title="compose.yaml"
+services:
+  servers-manager:
+    image: ${WATCHWOLFX_SERVERMANAGER_IMAGE:-ghcr.io/sarhatabaot/watchwolfx-servermanager:latest}
+    ports:
+      - "8000:8000"
+    environment:
+      MACHINE_IP: ${WATCHWOLF_MACHINE_IP:-127.0.0.1}
+      PUBLIC_IP: ${WATCHWOLF_PUBLIC_IP:-127.0.0.1}
+      PARENT_PWD: /servers
+      SERVER_PATH_SHIFT: .
+      WATCHWOLF_MINECRAFT_RUNTIME: ${WATCHWOLF_MINECRAFT_RUNTIME:-itzg}
+      WATCHWOLF_ITZG_IMAGE: ${WATCHWOLF_ITZG_IMAGE:-itzg/minecraft-server}
+      WATCHWOLF_ITZG_TAG: ${WATCHWOLF_ITZG_TAG:-auto}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - watchwolf_logs:/servers/logs
+    healthcheck:
+      test: ["CMD", "nc", "-z", "127.0.0.1", "8000"]
+      interval: 5s
+      timeout: 2s
+      retries: 24
+
+  clients-manager:
+    image: ${WATCHWOLFX_CLIENTSMANAGER_IMAGE:-ghcr.io/sarhatabaot/watchwolfx-clientsmanager:latest}
+    ports:
+      - "7000-7199:7000-7199"
+    environment:
+      MACHINE_IP: ${WATCHWOLF_MACHINE_IP:-127.0.0.1}
+      PUBLIC_IP: ${WATCHWOLF_PUBLIC_IP:-127.0.0.1}
+    healthcheck:
+      test: ["CMD", "/app/.venv/bin/python", "-c", "import socket; socket.create_connection(('127.0.0.1', 7000), 2).close()"]
+      interval: 5s
+      timeout: 3s
+      retries: 24
+
+volumes:
+  watchwolf_logs:
+```
+
+Pull and start the published images:
+
+```bash
+docker compose pull
+docker compose up --no-build --wait -d
+```
+
+This manifest uses the stable `latest` ServerManager and ClientsManager images from GitHub
 Container Registry. `--no-build` guarantees that this installation path never compiles the
 project locally.
 

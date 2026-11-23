@@ -20,10 +20,13 @@ WATCHWOLFX_SERVERMANAGER_IMAGE=watchwolfx-servermanager:dev
 WATCHWOLFX_CLIENTSMANAGER_IMAGE=watchwolfx-clientsmanager:dev
 ```
 
-Then build and start the stack:
+Build both local images, then start the stack with the same deployment manifest:
 
 ```bash
-docker compose up --build --wait -d
+docker build --tag watchwolfx-servermanager:dev \
+  --file watchwolfx-servermanager/ci/ghcr/Dockerfile .
+docker build --tag watchwolfx-clientsmanager:dev watchwolfx-clientsmanager
+docker compose up --no-build --wait -d
 ```
 
 ## Module commands
