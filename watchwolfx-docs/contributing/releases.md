@@ -20,8 +20,8 @@ Publishing a GitHub Release named `v<version>` starts independent Java and conta
 Each workflow verifies that its participating module versions match the release tag before
 publishing anything.
 
-The shared preflight also verifies that every Gradle wrapper is complete and tracked. This avoids
-creating a release that cannot build from a clean checkout.
+The shared preflight also verifies that every Gradle wrapper is complete, tracked, and executable
+in Git. This avoids creating a release that cannot build from a clean Linux checkout.
 
 ## Check a release before publishing
 

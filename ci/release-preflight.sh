@@ -33,6 +33,12 @@ for module in "${modules[@]}"; do
     fi
   done
 
+  wrapper_mode=$(git ls-files --stage "$wrapper" | awk '{ print $1 }')
+  if [[ "$wrapper_mode" != "100755" ]]; then
+    echo "Gradle wrapper is not executable in Git: $wrapper (mode $wrapper_mode; expected 100755)" >&2
+    exit 1
+  fi
+
   module_version=$(bash "./$wrapper" -q -p "$module" properties | awk '/^version: / { print $2 }')
   if [[ -z "$module_version" ]]; then
     echo "Unable to read Gradle project version for $module" >&2
